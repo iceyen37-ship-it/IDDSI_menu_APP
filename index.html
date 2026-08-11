@@ -620,9 +620,6 @@ function toggleContrast(){ state.contrast=!state.contrast; document.body.classLi
 function renderHome(){
   const q = state.searchQuery.trim().toLowerCase();
   const searchResults = q ? RECIPES.filter(r=> Object.values(typeof r.name==="string"?{v:r.name}:r.name).some(v=>v.toLowerCase().includes(q))) : [];
-  const drinkLevels = LEVELS.filter(l=>l.n<=2);
-  const bothLevels = LEVELS.filter(l=>l.n===3);
-  const foodLevels = LEVELS.filter(l=>l.n>=4);
   return `
   <div class="topbar">
     <div class="topbar-row"><div><h1>${t('homeTitle')}</h1><p>${t('homeSub')}</p></div></div>
@@ -642,12 +639,6 @@ function renderHome(){
           ${levelBadgeMini(r.level)}
         </div>`).join("") : `<div class="empty">${t('noRecipeFound')}</div>`}
     ` : `
-    <div class="section-title">${t('drinkSection')}</div>
-    <div class="level-grid">${drinkLevels.map(cardHtml).join("")}</div>
-    <div class="section-title">${t('bothSection')}</div>
-    <div class="level-grid">${bothLevels.map(cardHtml).join("")}</div>
-    <div class="section-title">${t('foodSection')}</div>
-    <div class="level-grid">${foodLevels.map(cardHtml).join("")}</div>
     ${renderMonthlySection()}
     `}
   </div>`;
