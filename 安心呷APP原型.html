@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安心呷｜你安心餵，我安心吃</title>
+<style>
+  :root{
+    --c0:#f5f5f5; --c0b:#bbb; --c1:#9e9e9e; --c2:#f48fb1; --c3:#fdd835;
+    --c4:#43a047; --c5:#fb8c00; --c6:#1e88e5; --c7:#212121;
+    --bg:#fef6ee; --card:#ffffff; --ink:#222; --sub:#6b7280; --accent:#f6812a; --accent-d:#d6620f;
+    --fs:15px;
+  }
+  body.contrast{ --bg:#000; --card:#111; --ink:#fff; --sub:#dcdcdc; --accent:#ffd54a; --accent-d:#ffd54a; }
+  body.contrast .badge{ outline:2px solid #fff; }
+  *{box-sizing:border-box;}
+  html{font-size:var(--fs);}
+  body{margin:0;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;background:#dfe3e8;display:flex;justify-content:center;padding:24px 0;}
+  .phone{width:390px;height:820px;background:var(--bg);border-radius:36px;box-shadow:0 20px 50px rgba(0,0,0,.3);overflow:hidden;position:relative;border:8px solid #111;color:var(--ink);}
+  .screen{height:100%;overflow-y:auto;padding-bottom:74px;}
+  .topbar{background:var(--accent-d);color:#fff;padding:14px 16px 12px;position:sticky;top:0;z-index:5;}
+  body.contrast .topbar{color:#000;}
+  .topbar-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .topbar h1{margin:0;font-size:1.13rem;font-weight:700;}
+  .topbar p{margin:2px 0 0;font-size:.78rem;opacity:.9;}
+  .backbtn{background:none;border:none;color:#fff;font-size:.9rem;cursor:pointer;padding:0 0 6px;}
+  body.contrast .backbtn{color:#000;}
+  .toolbtn{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;font-size:.68rem;padding:4px 7px;cursor:pointer;white-space:nowrap;}
+  body.contrast .toolbtn{color:#000;background:#fff;}
+  .toolrow{display:flex;gap:6px;flex-wrap:wrap;}
+  .content{padding:14px 16px 8px;}
+  .section-title{font-size:.9rem;font-weight:700;color:var(--ink);margin:14px 0 8px;}
+  .level-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  .level-card{background:var(--card);border-radius:14px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);cursor:pointer;border:2px solid transparent;text-align:left;width:100%;}
+  .level-card:focus-visible{outline:3px solid var(--accent);}
+  .badge{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;color:#fff;font-weight:800;font-size:.94rem;margin-bottom:6px;}
+  .level-card h3{margin:0;font-size:.86rem;color:var(--ink);}
+  .level-card p{margin:2px 0 0;font-size:.72rem;color:var(--sub);}
+  .search-box{display:flex;gap:8px;margin-bottom:6px;align-items:center;}
+  .search-box input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid #d7dbe0;font-size:.92rem;background:var(--card);color:var(--ink);}
+  .mic-btn{background:var(--accent);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:1rem;cursor:pointer;flex-shrink:0;}
+  .mic-btn[aria-pressed="true"]{background:#c62828;}
+  .cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
+  .cat-card{background:var(--card);border-radius:12px;padding:12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;border:none;}
+  .cat-card .em{font-size:1.6rem;}
+  .cat-card h4{margin:4px 0 0;font-size:.82rem;}
+  .chip-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px;}
+  .chip{font-size:.72rem;padding:5px 10px;border-radius:20px;background:#eef0f2;color:var(--sub);cursor:pointer;border:1px solid transparent;}
+  body.contrast .chip{background:#222;color:#fff;}
+  .chip.active{background:var(--accent);color:#fff;}
+  body.contrast .chip.active{color:#000;}
+  .food-item{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:12px;padding:10px 12px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;border:none;width:100%;text-align:left;}
+  .food-item .emoji{font-size:1.5rem;width:34px;text-align:center;flex-shrink:0;}
+  .food-item .info h4{margin:0;font-size:.88rem;}
+  .food-item .info p{margin:1px 0 0;font-size:.72rem;color:var(--sub);}
+  .mini-badge{margin-left:auto;width:28px;height:28px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0;}
+  .detail-hero{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+  .detail-hero .badge{width:46px;height:46px;font-size:1.2rem;margin:0;}
+  .detail-hero h2{margin:0;font-size:1rem;}
+  .detail-hero span{font-size:.75rem;color:var(--sub);}
+  .card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+  .card h4{margin:0 0 6px;font-size:.82rem;color:var(--accent);}
+  body.contrast .card h4{color:#ffd54a;}
+  .card p,.card li{font-size:.85rem;color:var(--ink);line-height:1.65;margin:0;}
+  .card ul{padding-left:18px;margin:0;}
+  input[type=text],input[type=date],textarea,select{width:100%;padding:9px 10px;border-radius:8px;border:1px solid #d7dbe0;font-size:.85rem;margin-bottom:8px;background:var(--card);color:var(--ink);}
+  label.f-label{font-size:.78rem;color:var(--sub);display:block;margin-bottom:4px;}
+  .field-row{display:flex;gap:6px;align-items:flex-start;}
+  .field-row input,.field-row textarea{flex:1;}
+  .btn-primary{background:var(--accent);color:#fff;border:none;padding:11px;border-radius:10px;font-size:.86rem;font-weight:700;cursor:pointer;width:100%;}
+  body.contrast .btn-primary{color:#000;}
+  .btn-ghost{background:none;border:1px solid #d7dbe0;color:var(--ink);padding:11px;border-radius:10px;font-size:.86rem;cursor:pointer;width:100%;}
+  .btn-row{display:flex;gap:8px;}
+  .tabbar{position:absolute;bottom:0;left:0;right:0;height:66px;background:var(--card);display:flex;border-top:1px solid #e5e7eb;}
+  .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:.68rem;color:#9aa0a6;cursor:pointer;background:none;border:none;}
+  .tab.active{color:var(--accent);font-weight:700;}
+  .tab .ic{font-size:1.15rem;}
+  .empty{text-align:center;color:var(--sub);font-size:.85rem;padding:30px 0;}
+  .warn{background:#fff4e5;border:1px solid #ffddab;border-radius:10px;padding:10px 12px;font-size:.78rem;color:#8a5a00;margin-bottom:12px;}
+  .shared-note{background:#fdece0;border-radius:10px;padding:8px 10px;font-size:.75rem;color:var(--accent-d);margin-bottom:10px;}
+  .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0 12px;}
+  .cal-h{text-align:center;font-size:.68rem;color:var(--sub);}
+  .cal-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--card);font-size:.78rem;cursor:pointer;border:none;}
+  .cal-d.sel{background:var(--accent);color:#fff;font-weight:700;}
+  .cal-d.has{box-shadow:inset 0 -3px 0 var(--accent);}
+  .cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .cal-nav button{background:var(--card);border:1px solid #d7dbe0;border-radius:50%;width:30px;height:30px;cursor:pointer;}
+  .onb{height:100%;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(160deg,var(--accent) 0%,var(--accent-d) 100%);color:#fff;padding:40px 26px 30px;text-align:center;}
+  .onb .logo{font-size:3.4rem;margin-bottom:6px;}
+  .onb h1{font-size:1.7rem;margin:0 0 6px;}
+  .onb h2{font-size:1rem;font-weight:400;opacity:.92;margin:0;}
+  .onb-btn{background:#fff;color:var(--accent-d);border:none;padding:13px;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;}
+  .lang-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:20px 0;}
+  .lang-opt{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.5);color:#fff;padding:14px;border-radius:12px;font-size:1rem;cursor:pointer;text-align:left;}
+  .lang-opt.sel{background:#fff;color:var(--accent-d);border-color:#fff;font-weight:700;}
+  .dots{display:flex;justify-content:center;gap:6px;margin:14px 0;}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);}
+  .dot.on{background:#fff;}
+  .carousel-emoji{font-size:3.4rem;}
+  .skip{position:absolute;top:8px;right:12px;font-size:.72rem;color:#fff;background:none;border:none;cursor:pointer;text-decoration:underline;}
+  .a11y-bar{display:flex;gap:6px;background:var(--card);padding:8px 10px;border-bottom:1px solid #e5e7eb;font-size:.7rem;align-items:center;flex-wrap:wrap;}
+  .fs-btn{width:26px;height:26px;border-radius:6px;border:1px solid #d7dbe0;background:var(--card);color:var(--ink);cursor:pointer;font-size:.72rem;}
+  .fs-btn.active{background:var(--accent);color:#fff;}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+  .skiplink{position:absolute;left:-999px;top:0;background:#fff;color:#000;padding:8px;z-index:50;}
+  .skiplink:focus{left:8px;}
+</style>
+</head>
+<body>
+<a href="#mainRegion" class="skiplink">跳到主要內容</a>
+<div class="phone">
+  <div class="screen" id="screen" role="main" id="mainRegion" aria-live="polite"></div>
+  <div class="tabbar" id="tabbar" role="navigation" aria-label="主要功能切換" hidden></div>
+</div>
+
+<script>
+/* ---------- i18n ---------- */
+const LANGS = [
+  {key:"zh", label:"中文（繁體）", native:"中文"},
+  {key:"en", label:"English", native:"English"},
+  {key:"fil", label:"Filipino", native:"Filipino"},
+  {key:"id", label:"Bahasa Indonesia", native:"Indonesia"}
+];
+const I18N = {
+  appName:{zh:"安心呷",en:"Ansim-Jia",fil:"Ansim-Jia",id:"Ansim-Jia"},
+  slogan:{zh:"你安心餵，我安心吃",en:"You feed with peace of mind, I eat with peace of mind",fil:"Ikaw ay pakain nang mapayapa, ako ay kumakain nang mapayapa",id:"Kamu memberi makan dengan tenang, aku makan dengan tenang"},
+  onbStart:{zh:"開始使用",en:"Get Started",fil:"Magsimula",id:"Mulai"},
+  onbChooseLang:{zh:"請選擇語言",en:"Choose your language",fil:"Pumili ng wika",id:"Pilih bahasa"},
+  onbNext:{zh:"下一步",en:"Next",fil:"Susunod",id:"Berikutnya"},
+  onbSkip:{zh:"略過",en:"Skip",fil:"Laktawan",id:"Lewati"},
+  slide1T:{zh:"食譜資料庫",en:"Recipe Database",fil:"Database ng Recipe",id:"Basis Data Resep"},
+  slide1D:{zh:"依IDDSI 0-7級查詢對應食譜與飲品做法",en:"Browse recipes and drinks by IDDSI level 0-7",fil:"Maghanap ng recipe ayon sa antas ng IDDSI",id:"Cari resep berdasarkan level IDDSI"},
+  slide2T:{zh:"共同紀錄",en:"Shared Log",fil:"Shared na Talaan",id:"Catatan Bersama"},
+  slide2D:{zh:"所有照護者即時共用飲食紀錄，掌握每日進食狀況",en:"All caregivers share meal records in real time",fil:"Lahat ng tagapag-alaga ay may access sa talaan",id:"Semua pengasuh berbagi catatan makan secara real-time"},
+  slide3T:{zh:"看診紀錄與語音輸入",en:"Visit Log & Voice Input",fil:"Talaan ng Konsulta at Boses",id:"Catatan Kunjungan & Input Suara"},
+  slide3D:{zh:"用語音快速記錄看診狀況，多國語言輕鬆切換",en:"Record clinic visits by voice, switch languages easily",fil:"Mabilis na irekord gamit ang boses",id:"Rekam kunjungan dengan suara, ganti bahasa dengan mudah"},
+  navHome:{zh:"菜單",en:"Menu",fil:"Menu",id:"Menu"},
+  navLog:{zh:"飲食紀錄",en:"Meal Log",fil:"Talaan ng Pagkain",id:"Catatan Makan"},
+  navRecipe:{zh:"新增",en:"Add",fil:"Magdagdag",id:"Tambah"},
+  navVisit:{zh:"看診紀錄",en:"Visit Log",fil:"Talaan ng Konsulta",id:"Catatan Kunjungan"},
+  homeTitle:{zh:"安心呷",en:"Ansim-Jia",fil:"Ansim-Jia",id:"Ansim-Jia"},
+  homeSub:{zh:"你安心餵，我安心吃",en:"You feed with peace of mind, I eat with peace of mind",fil:"Ikaw ay pakain nang mapayapa",id:"Kamu memberi makan dengan tenang"},
+  searchPh:{zh:"搜尋食物，例如：粥、豆腐、蛋糕",en:"Search food, e.g. porridge, tofu",fil:"Maghanap ng pagkain",id:"Cari makanan"},
+  drinkSection:{zh:"飲品等級（0-2）",en:"Drink Levels (0-2)",fil:"Antas ng Inumin (0-2)",id:"Level Minuman (0-2)"},
+  bothSection:{zh:"飲品／食物通用（3）",en:"Drink / Food (Level 3)",fil:"Inumin/Pagkain (Antas 3)",id:"Minuman/Makanan (Level 3)"},
+  foodSection:{zh:"食物等級（4-7）－食譜資料庫",en:"Food Levels (4-7) - Recipe Database",fil:"Antas ng Pagkain (4-7) - Database ng Recipe",id:"Level Makanan (4-7) - Basis Data Resep"},
+  micHint:{zh:"語音輸入",en:"Voice input",fil:"Input ng boses",id:"Input suara"},
+  fontSize:{zh:"字級",en:"Text size",fil:"Laki ng teksto",id:"Ukuran teks"},
+  contrastMode:{zh:"高對比",en:"High contrast",fil:"High contrast",id:"Kontras tinggi"},
+  warnText:{zh:"本工具僅供參考，實際飲食質地調整請諮詢語言治療師或醫療團隊。",en:"For reference only. Please consult a speech therapist or medical team before adjusting food texture.",fil:"Para sa sanggunian lamang. Kumonsulta sa speech therapist o medikal na koponan.",id:"Hanya sebagai referensi. Konsultasikan dengan terapis wicara atau tim medis."},
+  searchResultsLabel:{zh:"搜尋結果",en:"Search results",fil:"Resulta ng paghahanap",id:"Hasil pencarian"},
+  noRecipeFound:{zh:"查無符合的食譜",en:"No matching recipes found",fil:"Walang nahanap na recipe",id:"Resep tidak ditemukan"},
+  applicableType:{zh:"適用類型",en:"Applicable to",fil:"Naaangkop sa",id:"Berlaku untuk"},
+  descLabel:{zh:"質地說明",en:"Texture description",fil:"Paglalarawan ng texture",id:"Deskripsi tekstur"},
+  testLabel:{zh:"簡易居家測試",en:"Simple home test",fil:"Simpleng pagsusuri sa bahay",id:"Uji sederhana di rumah"},
+  backHome:{zh:"← 返回首頁",en:"← Back to Home",fil:"← Bumalik sa Home",id:"← Kembali ke Beranda"},
+  back:{zh:"← 返回",en:"← Back",fil:"← Bumalik",id:"← Kembali"},
+  chooseCategoryDesc:{zh:"選擇食物分類查看食譜資料庫",en:"Choose a food category to view the recipe database",fil:"Pumili ng kategorya ng pagkain",id:"Pilih kategori makanan"},
+  sixCategoriesLabel:{zh:"六大類食物分類",en:"6 Food Categories",fil:"6 Kategorya ng Pagkain",id:"6 Kategori Makanan"},
+  recipeDbLabel:{zh:"食譜資料庫",en:"Recipe Database",fil:"Database ng Recipe",id:"Basis Data Resep"},
+  noRecipeInCategory:{zh:"此分類尚無食譜，歡迎至「新增食譜」建立",en:"No recipes in this category yet. Add one in Add Recipe.",fil:"Wala pang recipe. Magdagdag sa Magdagdag ng Recipe.",id:"Belum ada resep. Tambahkan di Tambah Resep."},
+  customTag:{zh:"自訂",en:"Custom",fil:"Custom",id:"Kustom"},
+  ingredientsLabel:{zh:"食材",en:"Ingredients",fil:"Sangkap",id:"Bahan"},
+  methodLabel:{zh:"作法",en:"Method",fil:"Paraan",id:"Cara membuat"},
+  careNoteLabel:{zh:"照護提醒",en:"Caregiver notes",fil:"Paalala sa pag-aalaga",id:"Catatan perawatan"},
+  navLogSub:{zh:"所有照護者即時共用",en:"Shared live by all caregivers",fil:"Shared ng lahat ng tagapag-alaga",id:"Dibagikan semua pengasuh"},
+  sharedNoteLog:{zh:"🔄 此頁面所有照護者共用，任何人新增都會即時同步。",en:"🔄 Shared by all caregivers — any new entry syncs instantly.",fil:"🔄 Shared ng lahat, ang bagong entry ay agad nag-sync.",id:"🔄 Dibagikan semua pengasuh, entri baru langsung tersinkron."},
+  prevMonth:{zh:"上個月",en:"Previous month",fil:"Nakaraang buwan",id:"Bulan sebelumnya"},
+  nextMonth:{zh:"下個月",en:"Next month",fil:"Susunod na buwan",id:"Bulan berikutnya"},
+  addEntry:{zh:"＋ 記一筆",en:"＋ Add entry",fil:"＋ Magdagdag ng entry",id:"＋ Tambah catatan"},
+  newEntryTitle:{zh:"新增紀錄",en:"New entry",fil:"Bagong entry",id:"Catatan baru"},
+  foodNameLabel:{zh:"食物名稱",en:"Food name",fil:"Pangalan ng pagkain",id:"Nama makanan"},
+  foodNamePh:{zh:"例如：南瓜稠粥",en:"e.g. pumpkin congee",fil:"hal. pumpkin congee",id:"cth. bubur labu"},
+  categoryLabel:{zh:"類別",en:"Category",fil:"Kategorya",id:"Kategori"},
+  recorderLabel:{zh:"紀錄者",en:"Recorded by",fil:"Nagtala",id:"Dicatat oleh"},
+  recorderPh:{zh:"請輸入紀錄者稱呼",en:"Enter your name",fil:"Ilagay ang iyong pangalan",id:"Masukkan nama Anda"},
+  noteOptionalLabel:{zh:"備註（選填）",en:"Notes (optional)",fil:"Tala (opsyonal)",id:"Catatan (opsional)"},
+  logNotePh:{zh:"進食狀況、備註",en:"Eating status, notes",fil:"Katayuan sa pagkain",id:"Status makan, catatan"},
+  saveBtn:{zh:"儲存紀錄",en:"Save entry",fil:"I-save",id:"Simpan catatan"},
+  cancelBtn:{zh:"取消",en:"Cancel",fil:"Kanselahin",id:"Batal"},
+  entriesForDay:{zh:"紀錄",en:"entries",fil:"mga tala",id:"catatan"},
+  noEntriesForDate:{zh:"此日期還沒有紀錄，點上面「記一筆」新增",en:"No entries yet for this date. Tap Add entry above.",fil:"Wala pang entry sa araw na ito.",id:"Belum ada catatan untuk tanggal ini."},
+  recipeFormDesc:{zh:"打字或語音建立你的質地食譜",en:"Type or speak to create your texture recipe",fil:"I-type o sabihin para gumawa ng recipe",id:"Ketik atau ucapkan untuk membuat resep"},
+  recipeSharedNote:{zh:"📖 所有照護者都能查看你建立的自訂食譜，會同步收錄進首頁的食譜資料庫。",en:"📖 All caregivers can see recipes you create — they'll appear in the Home recipe database.",fil:"📖 Makikita ng lahat ang recipe na ginawa mo.",id:"📖 Semua pengasuh dapat melihat resep yang Anda buat."},
+  recipeContentLabel:{zh:"食譜內容",en:"Recipe details",fil:"Detalye ng recipe",id:"Detail resep"},
+  recipeNameLabel:{zh:"食譜名稱",en:"Recipe name",fil:"Pangalan ng recipe",id:"Nama resep"},
+  recipeNamePh:{zh:"例如：南瓜稠粥",en:"e.g. pumpkin congee",fil:"hal. pumpkin congee",id:"cth. bubur labu"},
+  categoryBelongLabel:{zh:"所屬六大類",en:"Food category",fil:"Kategorya ng pagkain",id:"Kategori makanan"},
+  textureLevelLabel:{zh:"質地等級",en:"Texture level",fil:"Antas ng texture",id:"Level tekstur"},
+  ingPh:{zh:"例如：南瓜、白米、水",en:"e.g. pumpkin, rice, water",fil:"hal. kalabasa, bigas, tubig",id:"cth. labu, beras, air"},
+  methodPh:{zh:"請描述製作步驟",en:"Describe the steps",fil:"Ilarawan ang mga hakbang",id:"Jelaskan langkah-langkahnya"},
+  careNotePh:{zh:"照護提醒",en:"Caregiver notes",fil:"Paalala sa pag-aalaga",id:"Catatan perawatan"},
+  saveRecipeBtn:{zh:"儲存食譜",en:"Save recipe",fil:"I-save ang recipe",id:"Simpan resep"},
+  customRecipesLabel:{zh:"已建立的自訂食譜",en:"Your custom recipes",fil:"Mga custom recipe mo",id:"Resep kustom Anda"},
+  noCustomRecipe:{zh:"還沒有自訂食譜，在上方表單建立第一筆",en:"No custom recipes yet — create your first one above.",fil:"Wala pang custom recipe.",id:"Belum ada resep kustom."},
+  visitDesc:{zh:"語音快速記錄看診狀況",en:"Quickly record clinic visits by voice",fil:"Mabilis na irekord gamit ang boses",id:"Catat kunjungan dengan cepat via suara"},
+  visitSharedNote:{zh:"🔄 所有照護者共用，可用語音快速記錄看診內容與醫囑。",en:"🔄 Shared by all caregivers — use voice to quickly log visit details.",fil:"🔄 Shared ng lahat, gamitin ang boses para mabilis magtala.",id:"🔄 Dibagikan semua pengasuh, gunakan suara untuk mencatat cepat."},
+  addVisitBtn:{zh:"＋ 新增看診紀錄",en:"＋ Add visit record",fil:"＋ Magdagdag ng talaan",id:"＋ Tambah catatan kunjungan"},
+  visitVoiceTitle:{zh:"🎙️ 語音記錄看診狀況",en:"🎙️ Voice record visit",fil:"🎙️ I-record gamit ang boses",id:"🎙️ Rekam dengan suara"},
+  visitDateLabel:{zh:"看診日期",en:"Visit date",fil:"Petsa ng konsulta",id:"Tanggal kunjungan"},
+  clinicLabel:{zh:"診所／醫師（選填）",en:"Clinic / Doctor (optional)",fil:"Klinika/Doktor (opsyonal)",id:"Klinik/Dokter (opsional)"},
+  clinicPh:{zh:"例如：耳鼻喉科 林醫師",en:"e.g. Dr. Lin, ENT",fil:"hal. Dr. Lin, ENT",id:"cth. Dr. Lin, THT"},
+  visitContentLabel:{zh:"看診內容",en:"Visit notes",fil:"Detalye ng konsulta",id:"Catatan kunjungan"},
+  visitContentPh:{zh:"醫囑、建議質地等級、複診時間...",en:"Doctor's advice, recommended level, next appointment...",fil:"Payo ng doktor, susunod na appointment...",id:"Saran dokter, jadwal kontrol berikutnya..."},
+  saveVisitBtn:{zh:"儲存看診紀錄",en:"Save visit record",fil:"I-save",id:"Simpan catatan"},
+  visitLogLabel:{zh:"看診紀錄",en:"Visit records",fil:"Mga talaan ng konsulta",id:"Catatan kunjungan"},
+  noVisitLog:{zh:"還沒有看診紀錄，點上面「新增看診紀錄」建立",en:"No visit records yet — tap Add visit record above.",fil:"Wala pang talaan ng konsulta.",id:"Belum ada catatan kunjungan."},
+  patientCardTitle:{zh:"👤 患者基本資訊",en:"👤 Patient information",fil:"👤 Impormasyon ng pasyente",id:"👤 Informasi pasien"},
+  patientCardTitleEdit:{zh:"👤 患者基本資訊（編輯中）",en:"👤 Patient information (editing)",fil:"👤 Impormasyon (in-edit)",id:"👤 Informasi pasien (mengedit)"},
+  editBtn:{zh:"✏️ 編輯",en:"✏️ Edit",fil:"✏️ I-edit",id:"✏️ Edit"},
+  nameLabel:{zh:"姓名",en:"Name",fil:"Pangalan",id:"Nama"},
+  ageLabel:{zh:"年齡",en:"Age",fil:"Edad",id:"Usia"},
+  genderLabel:{zh:"性別",en:"Gender",fil:"Kasarian",id:"Jenis kelamin"},
+  diagnosisLabel:{zh:"診斷／狀況",en:"Diagnosis / Condition",fil:"Diagnosis/Kondisyon",id:"Diagnosis/Kondisi"},
+  diagnosisPh:{zh:"例如：腦中風後吞嚥障礙",en:"e.g. dysphagia after stroke",fil:"hal. dysphagia pagkatapos ng stroke",id:"cth. disfagia pasca stroke"},
+  allergyLabel:{zh:"過敏史／禁忌（選填）",en:"Allergies (optional)",fil:"Allergy (opsyonal)",id:"Alergi (opsional)"},
+  allergyPh:{zh:"例如：對蝦蟹過敏",en:"e.g. allergic to shellfish",fil:"hal. alerdyi sa hipon",id:"cth. alergi udang"},
+  mainCarerLabel:{zh:"主要照顧者",en:"Main caregiver",fil:"Pangunahing tagapag-alaga",id:"Pengasuh utama"},
+  suggestedLevelLabel:{zh:"目前建議 IDDSI 等級",en:"Current recommended IDDSI level",fil:"Kasalukuyang inirerekomendang IDDSI level",id:"Level IDDSI yang direkomendasikan"},
+  savePatientBtn:{zh:"儲存患者資訊",en:"Save patient info",fil:"I-save ang impormasyon",id:"Simpan informasi pasien"},
+  ageYearsUnit:{zh:"歲",en:"y/o",fil:"taong gulang",id:"tahun"},
+  diagnosisPrefix:{zh:"診斷：",en:"Diagnosis: ",fil:"Diagnosis: ",id:"Diagnosis: "},
+  allergyPrefix:{zh:"過敏史：",en:"Allergies: ",fil:"Allergy: ",id:"Alergi: "},
+  noAllergyText:{zh:"無",en:"None",fil:"Wala",id:"Tidak ada"},
+  mainCarerPrefix:{zh:"主要照顧者：",en:"Main caregiver: ",fil:"Pangunahing tagapag-alaga: ",id:"Pengasuh utama: "},
+  suggestedTexturePrefix:{zh:"目前建議質地：",en:"Recommended texture: ",fil:"Inirerekomendang texture: ",id:"Tekstur yang direkomendasikan: "},
+  a11yLabel:{zh:"無障礙設定",en:"Accessibility settings",fil:"Setting ng accessibility",id:"Pengaturan aksesibilitas"},
+  smallFontLabel:{zh:"小字",en:"Small text",fil:"Maliit na teksto",id:"Teks kecil"},
+  medFontLabel:{zh:"中字",en:"Medium text",fil:"Katamtamang teksto",id:"Teks sedang"},
+  largeFontLabel:{zh:"大字",en:"Large text",fil:"Malaking teksto",id:"Teks besar"},
+  langSwitchLabel:{zh:"切換語言",en:"Switch language",fil:"Palitan ang wika",id:"Ganti bahasa"},
+  monthlySectionLabel:{zh:"本月營養食譜",en:"Monthly Nutrition Recipe",fil:"Buwanang Recipe sa Nutrisyon",id:"Resep Gizi Bulanan"},
+  monthlySourceNote:{zh:"資料來源：衛生福利部國民健康署《高齡營養健康食譜》，一般長者飲食建議，非依IDDSI質地分級。",en:"Source: Health Promotion Administration \"Healthy Nutrition Recipes for Elders\" — general elder diet guidance, not IDDSI texture-graded.",fil:"Pinagmulan: Health Promotion Administration, gabay sa nutrisyon para sa matatanda, hindi batay sa IDDSI texture.",id:"Sumber: Health Promotion Administration, panduan gizi umum lansia, bukan berdasarkan level tekstur IDDSI."},
+  thisMonthLabel:{zh:"本月推薦",en:"This month",fil:"Ngayong buwan",id:"Bulan ini"},
+  kcalUnit:{zh:"大卡／份",en:"kcal/serving",fil:"kcal/serving",id:"kkal/porsi"},
+  monthUnit:{zh:"月",en:"",fil:"",id:""},
+  kcalPerServing:{zh:"一人份營養成分",en:"Nutrition per serving",fil:"Nutrisyon bawat serving",id:"Gizi per porsi"}
+};
+function t(key){ return (I18N[key] && I18N[key][state.lang]) || (I18N[key] && I18N[key].zh) || key; }
+
+/* ---------- data ---------- */
+const LEVELS = [
+  {n:0,name:"Thin 清流質",color:"var(--c0b)",tc:"#333",type:"飲品",desc:"如水一般的液體，無需改質，可直接用吸管吸取。",test:"倒出後可自由流動，無阻力。"},
+  {n:1,name:"Slightly Thick 微稠",color:"var(--c1)",tc:"#fff",type:"飲品",desc:"比水稍濃稠，多用於嬰兒配方奶或特定吞嚥需求。",test:"用IDDSI流動測試針筒，10秒內流出量較Thin略少。"},
+  {n:2,name:"Mildly Thick 稍濃稠",color:"var(--c2)",tc:"#fff",type:"飲品",desc:"可用杯子飲用，倒出時仍會快速流動，吸管吸取需稍用力。",test:"流動測試針筒10秒流出量約4ml以上。"},
+  {n:3,name:"Moderately Thick / Liquidised 中濃稠 / 液化",color:"var(--c3)",tc:"#333",type:"飲品／食物",desc:"可用杯子飲用但無法用一般吸管；食物型態為完全液化、無顆粒，可用湯匙食用也可倒出。",test:"叉子測試：會透過叉齒滴落，無法維持形狀。"},
+  {n:4,name:"Pureed 細泥滑順",color:"var(--c4)",tc:"#fff",type:"食物",desc:"完全均質、無顆粒、不需咀嚼，可用湯匙食用，堆疊在湯匙上不會流動。",test:"叉子測試：食物可透過叉齒滴落成堆，不會保持尖峰。"},
+  {n:5,name:"Minced & Moist 細碎軟質",color:"var(--c5)",tc:"#fff",type:"食物",desc:"軟且濕潤，含小顆粒（≤4mm兒童/≤2mm成人），需極少咀嚼，湯汁不會分離。",test:"用叉子背壓時顆粒易被壓碎，無明顯湯汁流出。"},
+  {n:6,name:"Soft & Bite-Sized 軟質一口大小",color:"var(--c6)",tc:"#fff",type:"食物",desc:"柔軟、濕潤，切成一口大小（約1.5cm見方），需要咀嚼但不需切割。",test:"用湯匙側邊或叉子可輕易壓碎，不需用刀。"},
+  {n:7,name:"Regular / Easy to Chew 一般 / 易咀嚼",color:"var(--c7)",tc:"#fff",type:"食物",desc:"一般正常飲食質地，或稍加調整以利咀嚼，無質地限制。",test:"無特別測試，依一般飲食供應。"}
+];
+const CATEGORIES = [
+  {key:"grain",em:"🌾",name:{zh:"全穀雜糧類",en:"Grains & Staples",fil:"Butil at Staples",id:"Biji-bijian & Umbi"}},
+  {key:"protein",em:"🍗",name:{zh:"豆魚蛋肉類",en:"Protein (Meat/Fish/Egg/Beans)",fil:"Protina (Karne/Isda/Itlog)",id:"Protein (Daging/Ikan/Telur)"}},
+  {key:"veg",em:"🥦",name:{zh:"蔬菜類",en:"Vegetables",fil:"Gulay",id:"Sayuran"}},
+  {key:"fruit",em:"🍎",name:{zh:"水果類",en:"Fruits",fil:"Prutas",id:"Buah-buahan"}},
+  {key:"dairy",em:"🥛",name:{zh:"乳品類",en:"Dairy",fil:"Gatas at Produkto Nito",id:"Produk Susu"}},
+  {key:"oil",em:"🥜",name:{zh:"油脂與堅果種子類",en:"Oils, Nuts & Seeds",fil:"Langis, Mani at Buto",id:"Minyak, Kacang & Biji"}}
+];
+/* 每筆食譜的 name/ing/method/note 皆為多語言物件，會依 state.lang 自動切換顯示 */
+let RECIPES = [
+  {id:1,cat:"grain",level:4,src:"preset",
+    name:{zh:"綿密南瓜粥",en:"Smooth Pumpkin Congee",fil:"Malasang Lugaw na Kalabasa",id:"Bubur Labu Halus"},
+    ing:{zh:"南瓜、白米、水",en:"Pumpkin, rice, water",fil:"Kalabasa, bigas, tubig",id:"Labu, beras, air"},
+    method:{zh:"南瓜蒸熟去皮，與煮軟白粥一起用調理機打成細泥，過篩去除纖維。",en:"Steam pumpkin and peel it, blend with softly cooked rice congee into a fine puree, then sieve to remove fiber.",fil:"Steam ang kalabasa at alisan ng balat, i-blend kasama ang malambot na lugaw, at i-sala para tanggalin ang hibla.",id:"Kukus labu lalu kupas, blender bersama bubur nasi yang sudah lembek hingga halus, saring untuk membuang serat."},
+    note:{zh:"避免保留南瓜纖維，以免噎塞。",en:"Avoid leaving pumpkin fibers, as they may cause choking.",fil:"Iwasan ang hibla ng kalabasa para hindi mabulunan.",id:"Hindari sisa serat labu agar tidak tersedak."}},
+  {id:2,cat:"grain",level:4,src:"preset",
+    name:{zh:"地瓜泥",en:"Mashed Sweet Potato",fil:"Mashed na Kamote",id:"Ubi Jalar Halus"},
+    ing:{zh:"地瓜、少量開水",en:"Sweet potato, a little water",fil:"Kamote, kaunting tubig",id:"Ubi jalar, sedikit air"},
+    method:{zh:"地瓜蒸熟後壓成泥，加水調整至滑順不結塊。",en:"Steam the sweet potato and mash it, adding water until smooth with no lumps.",fil:"Steam ang kamote at durugin, magdagdag ng tubig hanggang maging makinis.",id:"Kukus ubi jalar lalu haluskan, tambahkan air hingga lembut tanpa gumpalan."},
+    note:{zh:"可加少量奶粉增加熱量密度。",en:"You can add a little milk powder for extra calories.",fil:"Puwedeng magdagdag ng gatas pulbos para sa dagdag na calories.",id:"Bisa tambahkan sedikit susu bubuk untuk tambahan kalori."}},
+  {id:3,cat:"grain",level:5,src:"preset",
+    name:{zh:"軟燉麵線",en:"Soft Braised Noodles",fil:"Malambot na Niluto na Noodles",id:"Mi Rebus Lembut"},
+    ing:{zh:"麵線、高湯",en:"Thin noodles, broth",fil:"Manipis na noodles, sabaw",id:"Mi tipis, kaldu"},
+    method:{zh:"麵線煮至軟爛後剪短至1cm內，拌入高湯保持濕潤。",en:"Cook noodles until very soft, cut into pieces under 1cm, and mix with broth to keep moist.",fil:"Lutuin ang noodles hanggang malambot, gupitin sa mas mababa sa 1cm, at ihalo sa sabaw.",id:"Masak mi hingga sangat lembut, potong kurang dari 1cm, campur dengan kaldu agar lembap."},
+    note:{zh:"避免長條麵線造成噎嗆。",en:"Avoid long strands of noodles to prevent choking.",fil:"Iwasan ang mahabang noodles para hindi mabulunan.",id:"Hindari untaian mi yang panjang agar tidak tersedak."}},
+  {id:4,cat:"grain",level:6,src:"preset",
+    name:{zh:"一口鬆軟饅頭",en:"Bite-Sized Soft Steamed Bun",fil:"Malambot na Steamed Bun na Isang Subo",id:"Bakpau Lembut Sekali Suap"},
+    ing:{zh:"饅頭、牛奶",en:"Steamed bun, milk",fil:"Steamed bun, gatas",id:"Bakpau, susu"},
+    method:{zh:"饅頭去皮切成一口大小，沾牛奶軟化後供食。",en:"Remove the skin, cut into bite-sized pieces, and soften with milk before serving.",fil:"Alisan ng balat, hiwain nang maliliit, at babadin sa gatas bago ihain.",id:"Buang kulitnya, potong sekali suap, rendam dengan susu sebelum disajikan."},
+    note:{zh:"確認中心已軟化再食用。",en:"Make sure the center is softened before eating.",fil:"Siguraduhing malambot na ang gitna bago kainin.",id:"Pastikan bagian tengah sudah lunak sebelum dimakan."}},
+  {id:5,cat:"grain",level:7,src:"preset",
+    name:{zh:"白飯（正常）",en:"Plain Rice (Regular)",fil:"Kaning Puti (Regular)",id:"Nasi Putih (Normal)"},
+    ing:{zh:"白米、水",en:"Rice, water",fil:"Bigas, tubig",id:"Beras, air"},
+    method:{zh:"以一般方式煮飯即可。",en:"Cook rice as usual.",fil:"Lutuin ang bigas gaya ng dati.",id:"Masak nasi seperti biasa."},
+    note:{zh:"適合咀嚼吞嚥功能正常者。",en:"Suitable for those with normal chewing and swallowing function.",fil:"Angkop para sa normal na paglunok at pagnguya.",id:"Cocok untuk fungsi mengunyah dan menelan normal."}},
+  {id:6,cat:"protein",level:4,src:"preset",
+    name:{zh:"蒸蛋豆腐泥",en:"Steamed Egg & Tofu Puree",fil:"Puree ng Steamed Egg at Tokwa",id:"Puree Telur Kukus & Tahu"},
+    ing:{zh:"雞蛋、嫩豆腐、高湯",en:"Egg, silken tofu, broth",fil:"Itlog, malambot na tokwa, sabaw",id:"Telur, tahu sutra, kaldu"},
+    method:{zh:"蒸蛋與嫩豆腐一起蒸熟後打成細泥，過篩確保滑順。",en:"Steam the egg and silken tofu together, blend into a fine puree, and sieve for smoothness.",fil:"I-steam ang itlog at tokwa, i-blend hanggang makinis, at i-sala.",id:"Kukus telur dan tahu sutra bersamaan, blender hingga halus, saring agar lembut."},
+    note:{zh:"蛋液比例高可增加口感滑順度。",en:"A higher egg ratio makes the texture smoother.",fil:"Mas maraming itlog, mas makinis ang texture.",id:"Rasio telur lebih banyak membuat tekstur lebih lembut."}},
+  {id:7,cat:"protein",level:5,src:"preset",
+    name:{zh:"細碎滷肉燥",en:"Finely Minced Braised Pork",fil:"Piniraso na Braised Pork",id:"Daging Cincang Halus Bumbu Kecap"},
+    ing:{zh:"絞肉、醬油、水",en:"Ground pork, soy sauce, water",fil:"Giniling na baboy, toyo, tubig",id:"Daging cincang, kecap, air"},
+    method:{zh:"絞肉滷煮至軟爛多汁，確保肉末細碎均勻。",en:"Braise the ground pork until soft and juicy, keeping the mince fine and even.",fil:"Lutuin ang giniling hanggang malambot at malasa, tiyaking pantay-pantay ang pagkapira-piraso.",id:"Rebus daging cincang hingga lembut dan berair, pastikan cincangannya halus merata."},
+    note:{zh:"避免肥肉顆粒過大。",en:"Avoid large chunks of fat.",fil:"Iwasan ang malalaking piraso ng taba.",id:"Hindari potongan lemak yang terlalu besar."}},
+  {id:8,cat:"protein",level:6,src:"preset",
+    name:{zh:"清蒸鱈魚塊",en:"Steamed Cod Pieces",fil:"Steamed na Cod",id:"Ikan Kod Kukus"},
+    ing:{zh:"鱈魚、蔥薑",en:"Cod fish, scallion, ginger",fil:"Cod, sibuyas na dahon, luya",id:"Ikan kod, daun bawang, jahe"},
+    method:{zh:"鱈魚清蒸後去骨去皮，剝成一口大小。",en:"Steam the cod, remove bones and skin, and break into bite-sized pieces.",fil:"I-steam ang cod, alisan ng buto at balat, hatiin sa maliliit na piraso.",id:"Kukus ikan kod, buang tulang dan kulit, potong sekali suap."},
+    note:{zh:"務必仔細檢查魚刺。",en:"Be sure to carefully check for fish bones.",fil:"Siguraduhing walang natitirang tinik.",id:"Pastikan tidak ada duri yang tersisa."}},
+  {id:9,cat:"protein",level:7,src:"preset",
+    name:{zh:"滷雞腿（一般）",en:"Braised Chicken Leg (Regular)",fil:"Braised na Manok (Regular)",id:"Paha Ayam Bumbu Kecap (Normal)"},
+    ing:{zh:"雞腿、滷汁",en:"Chicken leg, braising sauce",fil:"Hita ng manok, sarsa",id:"Paha ayam, saus"},
+    method:{zh:"一般滷製即可，注意去骨。",en:"Braise as usual, making sure to debone.",fil:"Lutuin gaya ng dati, alisan ng buto.",id:"Masak seperti biasa, pastikan tulangnya dibuang."},
+    note:{zh:"適合咀嚼功能正常者。",en:"Suitable for those with normal chewing function.",fil:"Angkop para sa normal na pagnguya.",id:"Cocok untuk fungsi mengunyah normal."}},
+  {id:10,cat:"veg",level:4,src:"preset",
+    name:{zh:"南瓜濃湯青菜泥",en:"Pumpkin & Spinach Puree Soup",fil:"Puree na Sabaw ng Kalabasa at Gulay",id:"Sup Puree Labu & Sayuran"},
+    ing:{zh:"南瓜、菠菜、高湯",en:"Pumpkin, spinach, broth",fil:"Kalabasa, spinach, sabaw",id:"Labu, bayam, kaldu"},
+    method:{zh:"蔬菜煮軟後與高湯一起打成細泥，過篩去除粗纖維。",en:"Cook vegetables until soft, blend with broth into a fine puree, and sieve out coarse fiber.",fil:"Lutuin ang gulay hanggang malambot, i-blend sa sabaw, at i-sala.",id:"Masak sayuran hingga lembut, blender dengan kaldu, saring seratnya."},
+    note:{zh:"深綠色蔬菜纖維較粗，務必過篩。",en:"Dark green vegetables have coarser fiber, so be sure to sieve.",fil:"Mas magaspang ang hibla ng madilim na gulay, siguraduhing i-sala.",id:"Sayuran hijau tua berserat lebih kasar, pastikan disaring."}},
+  {id:11,cat:"veg",level:5,src:"preset",
+    name:{zh:"細碎瓜仔菜",en:"Finely Chopped Squash & Mushroom",fil:"Piniraso na Kalabasa at Kabute",id:"Labu & Jamur Cincang Halus"},
+    ing:{zh:"絲瓜、鴻喜菇",en:"Loofah squash, shimeji mushroom",fil:"Loofah squash, kabute",id:"Gambas, jamur shimeji"},
+    method:{zh:"蔬菜煮軟後切細碎，保留少量湯汁增加濕潤度。",en:"Cook vegetables until soft, chop finely, and keep some broth for moisture.",fil:"Lutuin hanggang malambot, tadtarin, panatilihin ang sabaw para sa moisture.",id:"Masak hingga lembut, cincang halus, sisakan sedikit kuah agar lembap."},
+    note:{zh:"纖維較粗的菜梗建議去除。",en:"Coarser stems are best removed.",fil:"Alisin ang magaspang na tangkay.",id:"Sebaiknya buang batang yang berserat kasar."}},
+  {id:12,cat:"veg",level:6,src:"preset",
+    name:{zh:"軟煮花椰菜",en:"Soft Cooked Broccoli",fil:"Malambot na Niluto na Broccoli",id:"Brokoli Rebus Lembut"},
+    ing:{zh:"花椰菜",en:"Broccoli",fil:"Broccoli",id:"Brokoli"},
+    method:{zh:"花椰菜燙煮至軟透，切成一口大小。",en:"Boil broccoli until very tender, cut into bite-sized pieces.",fil:"Pakuluan ang broccoli hanggang malambot, hiwain nang maliit.",id:"Rebus brokoli hingga sangat lembut, potong sekali suap."},
+    note:{zh:"以叉子背可壓碎為判斷標準。",en:"It should be crushable with the back of a fork.",fil:"Dapat madurog gamit ang likod ng tinidor.",id:"Harus bisa dihancurkan dengan punggung garpu."}},
+  {id:13,cat:"veg",level:7,src:"preset",
+    name:{zh:"炒時蔬（一般）",en:"Stir-Fried Vegetables (Regular)",fil:"Prito na Gulay (Regular)",id:"Tumis Sayuran (Normal)"},
+    ing:{zh:"當季蔬菜",en:"Seasonal vegetables",fil:"Gulay ayon sa season",id:"Sayuran musiman"},
+    method:{zh:"一般炒製即可。",en:"Stir-fry as usual.",fil:"Prituhin gaya ng dati.",id:"Tumis seperti biasa."},
+    note:{zh:"適合咀嚼吞嚥功能正常者。",en:"Suitable for those with normal chewing and swallowing function.",fil:"Angkop para sa normal na paglunok at pagnguya.",id:"Cocok untuk fungsi mengunyah dan menelan normal."}},
+  {id:14,cat:"fruit",level:4,src:"preset",
+    name:{zh:"香蕉蘋果泥",en:"Banana & Apple Puree",fil:"Puree ng Saging at Mansanas",id:"Puree Pisang & Apel"},
+    ing:{zh:"熟香蕉、蘋果",en:"Ripe banana, apple",fil:"Hinog na saging, mansanas",id:"Pisang matang, apel"},
+    method:{zh:"水果打成細緻泥狀，去除果肉纖維與籽。",en:"Blend the fruit into a fine puree, removing fibers and seeds.",fil:"I-blend ang prutas hanggang makinis, alisin ang hibla at buto.",id:"Blender buah hingga halus, buang serat dan biji."},
+    note:{zh:"熟透香蕉是天然增稠好食材。",en:"Very ripe banana is a great natural thickener.",fil:"Ang hinog na saging ay natural na pampalapot.",id:"Pisang yang sangat matang adalah pengental alami yang baik."}},
+  {id:15,cat:"fruit",level:5,src:"preset",
+    name:{zh:"木瓜細丁",en:"Finely Diced Papaya",fil:"Pinong Hiniwang Papaya",id:"Pepaya Potong Dadu Halus"},
+    ing:{zh:"熟木瓜",en:"Ripe papaya",fil:"Hinog na papaya",id:"Pepaya matang"},
+    method:{zh:"木瓜切極小丁，質地濕軟。",en:"Cut papaya into very small dice; texture should be moist and soft.",fil:"Hiwain ang papaya nang maliit, dapat malambot at basa.",id:"Potong pepaya dadu sangat kecil, teksturnya lembap dan lunak."},
+    note:{zh:"避免選用偏硬果肉。",en:"Avoid firm, underripe flesh.",fil:"Iwasan ang matigas na papaya.",id:"Hindari daging buah yang masih keras."}},
+  {id:16,cat:"fruit",level:6,src:"preset",
+    name:{zh:"軟熟水梨塊",en:"Soft Ripe Pear Pieces",fil:"Malambot na Peras",id:"Potongan Pir Matang Lembut"},
+    ing:{zh:"水梨",en:"Pear",fil:"Peras",id:"Pir"},
+    method:{zh:"水梨去皮切一口大小，選擇熟軟品種。",en:"Peel the pear and cut into bite-sized pieces, choosing a soft ripe variety.",fil:"Balatan ang peras at hiwain nang maliit, pumili ng malambot na klase.",id:"Kupas pir dan potong sekali suap, pilih varietas yang lembut."},
+    note:{zh:"硬梨不適合此等級。",en:"Firm pears are not suitable for this level.",fil:"Hindi angkop ang matigas na peras.",id:"Pir yang keras tidak cocok untuk level ini."}},
+  {id:17,cat:"fruit",level:7,src:"preset",
+    name:{zh:"新鮮水果（一般）",en:"Fresh Fruit (Regular)",fil:"Sariwang Prutas (Regular)",id:"Buah Segar (Normal)"},
+    ing:{zh:"當季水果",en:"Seasonal fruit",fil:"Prutas ayon sa season",id:"Buah musiman"},
+    method:{zh:"清洗切塊即可。",en:"Wash and cut into pieces.",fil:"Hugasan at hiwain.",id:"Cuci dan potong."},
+    note:{zh:"適合咀嚼吞嚥功能正常者。",en:"Suitable for those with normal chewing and swallowing function.",fil:"Angkop para sa normal na paglunok at pagnguya.",id:"Cocok untuk fungsi mengunyah dan menelan normal."}},
+  {id:18,cat:"dairy",level:4,src:"preset",
+    name:{zh:"無顆粒優格",en:"Smooth Yogurt (No Chunks)",fil:"Makinis na Yogurt",id:"Yogurt Halus Tanpa Potongan"},
+    ing:{zh:"原味優格",en:"Plain yogurt",fil:"Plain na yogurt",id:"Yogurt plain"},
+    method:{zh:"選用無果粒滑順優格，直接食用。",en:"Choose smooth yogurt without fruit pieces and serve directly.",fil:"Pumili ng makinis na yogurt na walang piraso ng prutas.",id:"Pilih yogurt halus tanpa potongan buah, sajikan langsung."},
+    note:{zh:"避免含水果丁或穀物的品項。",en:"Avoid varieties with fruit chunks or granola.",fil:"Iwasan ang may piraso ng prutas o granola.",id:"Hindari varian dengan potongan buah atau granola."}},
+  {id:19,cat:"dairy",level:5,src:"preset",
+    name:{zh:"起司燕麥糊",en:"Cheese & Oatmeal Paste",fil:"Cheese na Oatmeal",id:"Bubur Oat Keju"},
+    ing:{zh:"起司片、燕麥",en:"Cheese slice, oats",fil:"Cheese, oats",id:"Keju lembar, oat"},
+    method:{zh:"燕麥煮軟拌入融化起司，攪拌均勻濕潤。",en:"Cook oats until soft, mix in melted cheese, and stir until moist and even.",fil:"Lutuin ang oats hanggang malambot, ihalo ang natunaw na cheese.",id:"Masak oat hingga lembut, campur keju leleh, aduk rata hingga lembap."},
+    note:{zh:"確認無結塊燕麥粒。",en:"Make sure there are no clumps of oats.",fil:"Siguraduhing walang tumpok na oats.",id:"Pastikan tidak ada gumpalan oat."}},
+  {id:20,cat:"dairy",level:6,src:"preset",
+    name:{zh:"軟質起司蛋糕",en:"Soft Cheesecake",fil:"Malambot na Cheesecake",id:"Cheesecake Lembut"},
+    ing:{zh:"起司蛋糕",en:"Cheesecake",fil:"Cheesecake",id:"Cheesecake"},
+    method:{zh:"選用綿密濕潤款式，切一口大小。",en:"Choose a dense, moist variety and cut into bite-sized pieces.",fil:"Pumili ng makapal at basang klase, hiwain nang maliit.",id:"Pilih varian yang lembut dan lembap, potong sekali suap."},
+    note:{zh:"避免含果乾堅果配料。",en:"Avoid toppings with dried fruit or nuts.",fil:"Iwasan ang toppings na dried fruit o mani.",id:"Hindari topping buah kering atau kacang."}},
+  {id:21,cat:"dairy",level:7,src:"preset",
+    name:{zh:"鮮奶（一般）",en:"Fresh Milk (Regular)",fil:"Sariwang Gatas (Regular)",id:"Susu Segar (Normal)"},
+    ing:{zh:"鮮奶",en:"Fresh milk",fil:"Sariwang gatas",id:"Susu segar"},
+    method:{zh:"直接飲用或搭配餐點。",en:"Drink directly or pair with meals.",fil:"Inumin nang direkta o kasabay ng pagkain.",id:"Minum langsung atau sebagai pendamping makan."},
+    note:{zh:"適合咀嚼吞嚥功能正常者。",en:"Suitable for those with normal chewing and swallowing function.",fil:"Angkop para sa normal na paglunok at pagnguya.",id:"Cocok untuk fungsi mengunyah dan menelan normal."}},
+  {id:22,cat:"oil",level:4,src:"preset",
+    name:{zh:"堅果醬糊",en:"Smooth Nut Butter Paste",fil:"Makinis na Nut Butter",id:"Pasta Selai Kacang Halus"},
+    ing:{zh:"無顆粒花生醬、溫水",en:"Smooth peanut butter, warm water",fil:"Makinis na peanut butter, mainit na tubig",id:"Selai kacang halus, air hangat"},
+    method:{zh:"花生醬以溫水調開至滑順糊狀，確保無顆粒。",en:"Mix peanut butter with warm water until smooth, making sure there are no lumps.",fil:"Ihalo ang peanut butter sa mainit na tubig hanggang makinis.",id:"Campur selai kacang dengan air hangat hingga halus, pastikan tidak menggumpal."},
+    note:{zh:"選用細滑無顆粒款式。",en:"Choose a smooth variety with no chunks.",fil:"Pumili ng makinis na klase na walang piraso.",id:"Pilih varian yang halus tanpa potongan."}},
+  {id:23,cat:"oil",level:5,src:"preset",
+    name:{zh:"芝麻糊",en:"Sesame Paste",fil:"Sesame Paste",id:"Bubur Wijen"},
+    ing:{zh:"黑芝麻粉、燕麥",en:"Black sesame powder, oats",fil:"Black sesame powder, oats",id:"Bubuk wijen hitam, oat"},
+    method:{zh:"芝麻粉煮成糊狀，拌入少量燕麥增加口感。",en:"Cook sesame powder into a paste, mix in a little oats for texture.",fil:"Lutuin ang sesame powder hanggang maging paste, ihalo ang kaunting oats.",id:"Masak bubuk wijen menjadi bubur, campur sedikit oat untuk tekstur."},
+    note:{zh:"確保無結塊、質地均勻。",en:"Make sure there are no lumps and the texture is even.",fil:"Siguraduhing walang tumpok at pantay ang texture.",id:"Pastikan tidak menggumpal dan teksturnya merata."}},
+  {id:24,cat:"oil",level:7,src:"preset",
+    name:{zh:"堅果（一般）",en:"Nuts (Regular)",fil:"Mani (Regular)",id:"Kacang (Normal)"},
+    ing:{zh:"綜合堅果",en:"Mixed nuts",fil:"Halo-halong mani",id:"Kacang campur"},
+    method:{zh:"直接食用或磨碎入菜。",en:"Eat directly or grind into dishes.",fil:"Kainin nang direkta o gilingin sa ulam.",id:"Makan langsung atau haluskan ke dalam masakan."},
+    note:{zh:"整顆堅果不適合吞嚥困難者，噎塞風險高。",en:"Whole nuts are not suitable for people with swallowing difficulty due to high choking risk.",fil:"Hindi angkop ang buong mani sa may hirap lumunok dahil sa panganib mabulunan.",id:"Kacang utuh tidak cocok untuk penderita disfagia karena risiko tersedak tinggi."}}
+];
+/* 依目前語言取回文字欄位，若非多語言物件（例如使用者自訂內容）則原樣顯示 */
+function trField(val){
+  if(val==null) return "";
+  if(typeof val==="string") return val;
+  return val[state.lang] || val.zh || Object.values(val)[0] || "";
+}
+let DIET_LOG = [
+  {date:"2026-07-26",cat:"protein",recorder:"王小美（女兒）",
+    food:{zh:"蒸蛋豆腐泥",en:"Steamed Egg & Tofu Puree",fil:"Puree ng Steamed Egg at Tokwa",id:"Puree Telur Kukus & Tahu"},
+    note:{zh:"進食順利，無嗆咳。",en:"Ate smoothly, no coughing.",fil:"Maayos na kumain, walang ubo.",id:"Makan lancar, tidak batuk."}},
+  {date:"2026-07-26",cat:"veg",recorder:"居服員 陳阿姨",
+    food:{zh:"南瓜濃湯青菜泥",en:"Pumpkin & Spinach Puree Soup",fil:"Puree na Sabaw ng Kalabasa at Gulay",id:"Sup Puree Labu & Sayuran"},
+    note:{zh:"進食中咳嗽1次，放慢速度後改善。",en:"Coughed once while eating, improved after slowing down.",fil:"Umubo minsan habang kumakain, gumaling matapos bagalan.",id:"Batuk sekali saat makan, membaik setelah diperlambat."}}
+];
+let VISIT_LOG = [
+  {date:"2026-07-20",recorder:"王小美（女兒）",
+    clinic:{zh:"耳鼻喉科 林醫師",en:"Dr. Lin, ENT",fil:"Dr. Lin, ENT",id:"Dr. Lin, THT"},
+    content:{zh:"評估吞嚥功能穩定，建議持續Level 5質地，三個月後複診。",en:"Swallowing function assessed as stable; recommended to continue Level 5 texture, follow-up in 3 months.",fil:"Matatag ang paglunok, ipagpatuloy ang Level 5 texture, balik sa 3 buwan.",id:"Fungsi menelan stabil, disarankan lanjutkan tekstur Level 5, kontrol 3 bulan lagi."}}
+];
+let patientInfo = {
+  name:"王陳阿美", age:"82",
+  gender:{zh:"女",en:"Female",fil:"Babae",id:"Perempuan"},
+  diagnosis:{zh:"腦中風後吞嚥障礙",en:"Dysphagia after stroke",fil:"Dysphagia matapos ang stroke",id:"Disfagia pasca stroke"},
+  allergy:{zh:"對蝦蟹過敏",en:"Allergic to shellfish",fil:"Allergic sa hipon/alimango",id:"Alergi udang/kepiting"},
+  mainCarer:"王小美（女兒）", iddsiLevel:5
+};
+
+/* 「本月營養食譜」資料來源：衛生福利部國民健康署《高齡營養健康食譜》(health99.hpa.gov.tw)，一般長者飲食，非依IDDSI質地分級 */
+const MONTHLY_RECIPES = [
+  {month:1,emoji:"🥦",kcal:143,
+    name:{zh:"青花菜海鮮濃湯",en:"Broccoli Seafood Chowder",fil:"Sopas ng Broccoli at Seafood",id:"Sup Krim Brokoli Seafood"},
+    ing:{zh:"南瓜55克、洋蔥40克(切末)、蝦仁50克、青花菜80克(切丁)、小卷35克、蛤蜊(大)6個、橄欖油1茶匙、蒜片2~3片、鹽少許、白胡椒粉少許",en:"Pumpkin 55g, minced onion 40g, shrimp 50g, diced broccoli 80g, squid 35g, 6 large clams, 1 tsp olive oil, 2-3 garlic slices, salt, white pepper",fil:"Kalabasa 55g, tinadtad na sibuyas 40g, hipon 50g, hiniwang broccoli 80g, pusit 35g, 6 malaking clams, 1 tsp olive oil, bawang, asin, paminta",id:"Labu 55g, bawang bombay cincang 40g, udang 50g, brokoli potong dadu 80g, cumi 35g, 6 kerang besar, 1 sdt minyak zaitun, bawang putih, garam, merica putih"},
+    method:{zh:"南瓜蒸熟後攪拌成泥；蝦仁、小卷燙熟；蛤蜊吐沙備用。用橄欖油炒香蒜片，加洋蔥炒軟，加入青花菜、水煮滾，加蛤蜊煮開後再加蝦仁、小卷、南瓜泥拌勻，最後加鹽、白胡椒粉調味。",en:"Steam and mash the pumpkin. Blanch shrimp and squid. Purge clams of sand. Sauté garlic in olive oil, soften onion, add broccoli and water and bring to a boil. Add clams, then shrimp, squid, and pumpkin puree; stir well and season with salt and white pepper.",fil:"I-steam at durugin ang kalabasa. Iluto ang hipon at pusit. Alisin ang buhangin sa clams. Igisa ang bawang sa olive oil, lambutin ang sibuyas, idagdag ang broccoli at tubig, pakuluan. Idagdag ang clams, hipon, pusit, at kalabasa, timplahan ng asin at paminta.",id:"Kukus dan haluskan labu. Rebus udang dan cumi. Bersihkan kerang dari pasir. Tumis bawang putih dengan minyak zaitun, layukan bawang bombay, tambahkan brokoli dan air, didihkan. Masukkan kerang, lalu udang, cumi, dan labu halus, aduk rata, bumbui garam dan merica."},
+    note:{zh:"冬天是青花菜產季，口感較佳。海鮮為中低脂肉類，蛤蜊含鋅，可增進皮膚健康、有助於維持正常味覺與食慾。此湯品食物多樣化、色彩豐富，營養均衡。亦可用胡蘿蔔代替青花菜、薑代替蒜片。",en:"Winter is broccoli season for better flavor. Seafood is low-fat protein; clams contain zinc which supports skin health and taste/appetite. This soup is colorful and nutritionally balanced. You can substitute carrot for broccoli and ginger for garlic.",fil:"Ang taglamig ay season ng broccoli. Ang seafood ay mababang taba na protina; may zinc ang clams na tumutulong sa balat at gana. Balanseng nutrisyon ang sabaw na ito. Puwedeng gamitin ang carrot at luya bilang kapalit.",id:"Musim dingin adalah musim brokoli terbaik. Seafood rendah lemak; kerang mengandung zinc yang baik untuk kulit dan nafsu makan. Sup ini kaya warna dan gizi seimbang. Bisa ganti brokoli dengan wortel dan bawang putih dengan jahe."}},
+  {month:2,emoji:"🥩",kcal:248,
+    name:{zh:"滷梅花重疊肉",en:"Braised Layered Pork Shoulder",fil:"Braised na Nakapatong na Baboy",id:"Bahu Babi Berlapis Kecap"},
+    ing:{zh:"梅花肉片(火鍋肉片)120克、蔥1/4根、薑2片、青江菜100克、太白粉少許、醬油2大匙、糖少許、酒少許",en:"Pork shoulder hot-pot slices 120g, scallion 1/4 stalk, ginger 2 slices, bok choy 100g, a little cornstarch, 2 tbsp soy sauce, sugar, cooking wine",fil:"Hiniwang baboy 120g, sibuyas na dahon, luya, bok choy 100g, cornstarch, 2 tbsp toyo, asukal, alak",id:"Irisan bahu babi 120g, daun bawang, jahe, sawi hijau 100g, sedikit tepung maizena, 2 sdm kecap asin, gula, arak masak"},
+    method:{zh:"蒸盤上舖一層肉片，灑太白粉再鋪肉片，重疊約5層後塗太白粉水固定。加蔥、薑、醬油、糖、酒及水，放入蒸盤中燉煮30~35分鐘，取出切成易於食用的大小，搭配川燙青江菜食用。",en:"Layer pork slices on a steaming plate, dusting cornstarch between about 5 layers, then coat with cornstarch slurry to hold together. Add scallion, ginger, soy sauce, sugar, wine and water, steam 30-35 minutes. Cut into bite-sized pieces and serve with blanched bok choy.",fil:"Ihanay ang baboy sa steaming plate, budburan ng cornstarch sa pagitan ng 5 layers, takpan ng cornstarch slurry. Idagdag ang sibuyas, luya, toyo, asukal, alak at tubig, i-steam ng 30-35 minuto. Hiwain nang maliit, ihain kasama ang bok choy.",id:"Susun irisan babi di piring kukus, taburi maizena di antara sekitar 5 lapis, lalu lapisi dengan larutan maizena. Tambahkan daun bawang, jahe, kecap, gula, arak, dan air, kukus 30-35 menit. Potong sekali suap, sajikan dengan sawi rebus."},
+    note:{zh:"利用製作東坡肉方法燉煮，可使肉質柔軟，搭配青菜食用，對長者而言容易入口，且油脂含量較少。亦可加入馬鈴薯、紅蘿蔔、洋蔥、蒟蒻等一起燉煮，食材多樣化、營養均衡。",en:"Braising like Dongpo pork makes the meat tender and easy to eat for elders, with less fat. You can also add potato, carrot, onion, or konjac for variety and balance.",fil:"Ang braising ay ginagawang malambot ang karne, madaling kainin ng matatanda, mas kaunti ang taba. Puwedeng magdagdag ng patatas, carrot, sibuyas, o konjac.",id:"Cara masak seperti daging Dongpo membuat daging empuk dan mudah dimakan lansia, lemak lebih sedikit. Bisa tambahkan kentang, wortel, bawang bombay, atau konjak."}},
+  {month:3,emoji:"🍚",kcal:269,
+    name:{zh:"健康蔬菜粥",en:"Healthy Vegetable Congee",fil:"Malusog na Lugaw na Gulay",id:"Bubur Sayur Sehat"},
+    ing:{zh:"洋蔥1/4個(切丁)、胡蘿蔔20克(切丁)、高麗菜60克(小片)、豆皮1/2片(切小塊)、植物油1茶匙、豬絞肉70克、胚芽米1/2米杯、芹菜末少許、水3杯、鹽少許、醬油少許、胡椒粉少許",en:"Onion 1/4 diced, carrot 20g diced, cabbage 60g, tofu skin 1/2 piece diced, 1 tsp oil, ground pork 70g, 1/2 cup germ rice, celery, 3 cups water, salt, soy sauce, pepper",fil:"Sibuyas, carrot, repolyo, tokwa skin, langis, giniling na baboy, bigas, kintsay, tubig, asin, toyo, paminta",id:"Bawang bombay, wortel, kubis, kulit tahu, minyak, daging cincang, beras germ, seledri, air, garam, kecap, merica"},
+    method:{zh:"洋蔥、胡蘿蔔切丁，高麗菜切小片，芹菜切末，豆皮切小塊。鍋中加油炒洋蔥至透明，加豬絞肉、胡蘿蔔、豆皮炒熟，加鹽及醬油調味。胚芽米洗淨加3杯水入電鍋，加入炒料及高麗菜，煮熟後加胡椒粉、芹菜末即可。",en:"Dice onion and carrot, shred cabbage, mince celery, dice tofu skin. Sauté onion until translucent, add pork, carrot, tofu skin, season with salt and soy sauce. Rinse germ rice with 3 cups water in rice cooker, add the sautéed mix and cabbage, cook, then finish with pepper and celery.",fil:"Tadtarin ang sibuyas, carrot, repolyo, kintsay, tokwa. Igisa ang sibuyas, idagdag ang baboy, carrot, tokwa, timplahan. Lutuin ang bigas na may 3 tasang tubig, idagdag ang gisado at repolyo, lutuin, tapusin ng paminta at kintsay.",id:"Potong dadu bawang bombay dan wortel, iris kubis, cincang seledri, potong kulit tahu. Tumis bawang hingga bening, tambahkan daging, wortel, kulit tahu, bumbui. Masak beras germ dengan 3 cangkir air di rice cooker, tambahkan tumisan dan kubis, masak, akhiri dengan merica dan seledri."},
+    note:{zh:"粥品對長者而言是容易入口的餐點。高麗菜、洋蔥、胡蘿蔔等可增加纖維攝取。亦可用燕麥代替部分胚芽米，增加纖維質攝取。",en:"Congee is easy to eat for elders. Cabbage, onion, and carrot add fiber. You can replace part of the rice with oats for more fiber.",fil:"Madaling kainin ng matatanda ang lugaw. Nagdadagdag ng fiber ang repolyo, sibuyas, carrot. Puwedeng palitan ng oats ang bahagi ng bigas.",id:"Bubur mudah dimakan lansia. Kubis, bawang bombay, wortel menambah serat. Sebagian beras bisa diganti oat untuk tambahan serat."}},
+  {month:4,emoji:"🌿",kcal:315,
+    name:{zh:"塔塔香肉燥飯",en:"Thai Basil Minced Pork Rice",fil:"Kaning may Giniling at Basil",id:"Nasi Daging Cincang Kemangi"},
+    ing:{zh:"杏鮑菇30克(切丁)、蒜頭1顆(切碎)、九層塔10克(切碎)、豬絞肉70克、胚芽米飯1.5碗、白芝麻少許、植物油1茶匙、醬油1茶匙、米酒少許、糖少許",en:"King oyster mushroom 30g diced, 1 minced garlic clove, Thai basil 10g minced, ground pork 70g, 1.5 bowls germ rice, sesame seeds, 1 tsp oil, 1 tsp soy sauce, wine, sugar",fil:"King oyster mushroom, bawang, basil, giniling na baboy, kanin, sesame seeds, langis, toyo, alak, asukal",id:"Jamur king oyster, bawang putih, kemangi, daging cincang, nasi, wijen, minyak, kecap, arak, gula"},
+    method:{zh:"杏鮑菇切丁，蒜頭及九層塔切碎。鍋中加油炒香蒜末及九層塔，加豬絞肉、杏鮑菇拌炒均勻，加調味料調味。將炒料淋在胚芽米飯上，灑白芝麻即可食用。",en:"Dice the mushroom, mince garlic and basil. Sauté garlic and basil in oil, add pork and mushroom, stir-fry evenly, season. Spoon over rice and sprinkle with sesame seeds.",fil:"Tadtarin ang kabute, bawang, at basil. Igisa ang bawang at basil, idagdag ang baboy at kabute, timplahan. Ibuhos sa kanin, budburan ng sesame.",id:"Potong dadu jamur, cincang bawang putih dan kemangi. Tumis bawang dan kemangi, tambahkan daging dan jamur, aduk rata, bumbui. Siram di atas nasi, taburi wijen."},
+    note:{zh:"九層塔的特殊香氣，再加上肉燥，可增加長者食慾。白芝麻含身體必需脂肪酸及豐富維生素E，具抗氧化作用，能增進皮膚健康。亦可用雞蛋代替豬絞肉，做成九層塔煎蛋。",en:"Basil's aroma with minced pork boosts elders' appetite. Sesame seeds provide essential fatty acids and vitamin E for skin health. You can replace pork with egg for a basil omelet.",fil:"Ang amoy ng basil at giniling ay nagpapataas ng gana ng matatanda. May essential fatty acids at Vitamin E ang sesame para sa balat. Puwedeng palitan ang baboy ng itlog.",id:"Aroma kemangi dengan daging cincang meningkatkan nafsu makan lansia. Wijen mengandung asam lemak esensial dan vitamin E untuk kulit. Daging bisa diganti telur untuk omelet kemangi."}},
+  {month:5,emoji:"🍛",kcal:149,
+    name:{zh:"咖哩菇菇歐姆蛋",en:"Curry Mushroom Omelet",fil:"Curry Mushroom Omelette",id:"Omelet Jamur Kari"},
+    ing:{zh:"鮮香菇1朵(切絲)、金針菇20克、美白菇20克、雞蛋2個、蔥花少許、植物油2茶匙、洋蔥1/4顆、水200毫升、咖哩粉1茶匙、番茄醬2茶匙、鹽少許",en:"1 shiitake mushroom, enoki 20g, white beech mushroom 20g, 2 eggs, scallion, 2 tsp oil, 1/4 onion, 200ml water, 1 tsp curry powder, 2 tsp ketchup, salt",fil:"Kabute, itlog, sibuyas, tubig, curry powder, ketchup, asin",id:"Jamur shiitake, jamur enoki, jamur putih, telur, daun bawang, minyak, bawang bombay, air, bubuk kari, saus tomat, garam"},
+    method:{zh:"菇類洗淨切絲；蛋打成蛋液加蔥花拌勻。用油炒香咖哩粉，加洋蔥、番茄醬及水煮滾成醬汁。鍋中炒菇，一半炒熟取出，另一半留鍋加鹽，倒入蛋液煎成蛋捲，淋上咖哩醬汁即可。",en:"Slice mushrooms. Beat eggs with scallion. Sauté curry powder, add onion, ketchup, and water to make sauce. Stir-fry mushrooms, set half aside; cook the rest with salt, pour in egg mixture and roll into an omelet, top with curry sauce.",fil:"Hiwain ang kabute. Paluin ang itlog na may sibuyas. Igisa ang curry powder, idagdag ang sibuyas, ketchup, tubig para sa sarsa. Igisa ang kabute, ihiwalay ang kalahati, lutuin ang natitira na may asin, ibuhos ang itlog, i-roll, budburan ng curry sauce.",id:"Iris jamur. Kocok telur dengan daun bawang. Tumis bubuk kari, tambahkan bawang, saus tomat, air untuk saus. Tumis jamur, sisihkan separuh, masak sisanya dengan garam, tuang telur, gulung jadi omelet, siram saus kari."},
+    note:{zh:"咖哩在炎熱夏天可刺激長者食慾，薑黃素具抗發炎效果。搭配米飯、蔬菜食用可攝取多種營養素。亦可用新鮮番茄代替菇類，做出茄汁歐姆蛋。",en:"Curry stimulates appetite in hot summer; curcumin has anti-inflammatory effects. Pair with rice and vegetables for balanced nutrition. You can use fresh tomato instead of mushrooms for a tomato omelet.",fil:"Nagpapataas ng gana ang curry sa tag-init; may anti-inflammatory ang curcumin. Isama sa kanin at gulay. Puwedeng gamitin ang sariwang kamatis kapalit ng kabute.",id:"Kari merangsang nafsu makan di musim panas; kurkumin bersifat anti-inflamasi. Padukan dengan nasi dan sayur. Bisa ganti jamur dengan tomat segar untuk omelet tomat."}},
+  {month:6,emoji:"🍆",kcal:109,
+    name:{zh:"味噌茄子",en:"Miso Eggplant",fil:"Miso Talong",id:"Terong Miso"},
+    ing:{zh:"茄子2條(約200克)、橄欖油1茶匙、白芝麻1大匙、水3/4杯、味噌1大匙、細砂糖少許、開水1.5大匙",en:"2 eggplants (~200g), 1 tsp olive oil, 1 tbsp sesame seeds, 3/4 cup water, 1 tbsp miso, sugar, 1.5 tbsp water",fil:"Talong, olive oil, sesame seeds, tubig, miso, asukal",id:"Terong, minyak zaitun, wijen, air, miso, gula"},
+    method:{zh:"茄子洗淨切長段，斜切十字花後排入盤中，淋上橄欖油。放電鍋外鍋加3/4杯水蒸熟，開關跳起後立即取出。混合味噌醬料，與茄子拌勻，灑白芝麻即可。",en:"Cut eggplant into segments, score a crosshatch, arrange on a plate, drizzle with olive oil. Steam with 3/4 cup water until done, remove immediately when finished. Mix the miso sauce, toss with eggplant, sprinkle sesame seeds.",fil:"Hiwain ang talong, guhitan ng crosshatch, ilagay sa plato, budburan ng olive oil. I-steam gamit ang 3/4 tasang tubig, alisin agad pagkatapos. Ihalo ang miso sauce sa talong, budburan ng sesame.",id:"Potong terong, iris silang, susun di piring, siram minyak zaitun. Kukus dengan 3/4 cangkir air hingga matang, angkat segera. Campur saus miso dengan terong, taburi wijen."},
+    note:{zh:"茄子含維生素A、B群、C等，紫色外皮含多酚類抗氧化物。蒸過的茄子質地較軟，適合咀嚼困難長者食用。味噌含優良蛋白質、大豆異黃酮、卵磷脂等營養素。",en:"Eggplant provides vitamins A, B, C; the purple skin contains antioxidant polyphenols. Steamed eggplant is soft, suitable for those with chewing difficulty. Miso offers quality protein, isoflavones, and lecithin.",fil:"May Vitamin A, B, C ang talong; may antioxidant sa balat nito. Malambot ang steamed na talong, angkop sa may hirap ngumuya. May mataas na kalidad na protina ang miso.",id:"Terong mengandung vitamin A, B, C; kulit ungunya kaya antioksidan. Terong kukus lembut, cocok untuk yang sulit mengunyah. Miso mengandung protein berkualitas dan isoflavon."}},
+  {month:7,emoji:"🥬",kcal:88,
+    name:{zh:"秋葵豆腐",en:"Okra & Tofu",fil:"Okra at Tokwa",id:"Okra & Tahu"},
+    ing:{zh:"豆腐1盒、秋葵12根(約100克)、蒜末少許、紅辣椒末少許、蔥花少許、鹽少許、醬油少許、糖少許、黑醋少許、香油少許",en:"1 box tofu, 12 okra (~100g), minced garlic, minced chili, scallion, salt, soy sauce, sugar, black vinegar, sesame oil",fil:"Tokwa, okra, bawang, sili, sibuyas na dahon, asin, toyo, asukal, black vinegar, sesame oil",id:"Tahu, okra, bawang putih, cabai, daun bawang, garam, kecap, gula, cuka hitam, minyak wijen"},
+    method:{zh:"豆腐加鹽去水後切小塊，川燙備用。秋葵抹鹽去絨毛，川燙後橫切成星星狀。蒜末加醬油、糖、黑醋調成醬汁。碗中放秋葵、豆腐拌勻，淋上醬汁，加香油、紅辣椒末及蔥花拌勻即可。",en:"Salt tofu to draw out water, cube and blanch. Rub okra with salt to remove fuzz, blanch, and slice crosswise into star shapes. Mix garlic, soy sauce, sugar, black vinegar into a sauce. Combine okra and tofu, drizzle with sauce, add sesame oil, chili, and scallion.",fil:"Asinan ang tokwa, hiwain, iluto. Kuskusin ng asin ang okra, iluto, hiwain crosswise. Ihalo ang bawang, toyo, asukal, black vinegar. Ihalo ang okra at tokwa, budburan ng sesame oil, sili, sibuyas.",id:"Garami tahu untuk keluarkan air, potong dadu, rebus. Gosok okra dengan garam, rebus, potong melintang bentuk bintang. Campur bawang putih, kecap, gula, cuka hitam jadi saus. Campur okra dan tahu, siram saus, tambahkan minyak wijen, cabai, daun bawang."},
+    note:{zh:"秋葵含鐵、鈣等多種微量營養素。豆腐是良好的植物性蛋白質，對咀嚼困難長者是容易入口的菜餚。亦可用西洋芹代替秋葵、干絲代替豆腐。",en:"Okra provides iron, calcium and other trace nutrients. Tofu is a good plant protein, easy to eat for those with chewing difficulty. You can substitute celery for okra and dried tofu strips for tofu.",fil:"May iron, calcium ang okra. Magandang plant protein ang tokwa, madaling kainin ng may hirap ngumuya. Puwedeng gamitin ang celery kapalit ng okra.",id:"Okra kaya zat besi dan kalsium. Tahu adalah protein nabati yang baik, mudah dimakan bagi yang sulit mengunyah. Bisa ganti okra dengan seledri."}},
+  {month:8,emoji:"🍜",kcal:255,
+    name:{zh:"米苔目湯",en:"Rice Noodle Soup",fil:"Sopas na Rice Noodle",id:"Sup Mi Beras"},
+    ing:{zh:"韭菜20克、蝦米5克、紅蔥頭少許、肉絲70克、米苔目(濕)200克、綠豆芽50克、鹽少許、麻油1茶匙",en:"Garlic chives 20g, dried shrimp 5g, shallot, shredded meat 70g, rice noodles (fresh) 200g, mung bean sprouts 50g, salt, 1 tsp sesame oil",fil:"Chives, dried shrimp, sibuyas, karne, rice noodles, toge, asin, sesame oil",id:"Kucai, udang kering, bawang merah, daging suwir, mi beras, tauge, garam, minyak wijen"},
+    method:{zh:"韭菜洗淨切段。蝦米、紅蔥頭、肉絲炒香。米苔目放入滾水，加入炒料及綠豆芽煮滾，起鍋前加鹽及麻油即可。",en:"Cut chives into segments. Sauté dried shrimp, shallot, and shredded meat until fragrant. Boil rice noodles, add the sautéed mix and bean sprouts, season with salt and sesame oil before serving.",fil:"Hiwain ang chives. Igisa ang dried shrimp, sibuyas, karne. Pakuluan ang rice noodles, idagdag ang gisado at toge, timplahan ng asin at sesame oil.",id:"Potong kucai. Tumis udang kering, bawang merah, daging suwir. Rebus mi beras, tambahkan tumisan dan tauge, bumbui garam dan minyak wijen."},
+    note:{zh:"米苔目是國內普遍食用的傳統米食，高齡者接受度高。亦可用粄條代替米苔目，適合做為高齡者的點心。",en:"Rice noodles are a common traditional dish, well accepted by elders. You can use flat rice noodles instead, suitable as a snack for elders.",fil:"Karaniwang tradisyonal na pagkain ang rice noodles, tinatanggap ng matatanda. Puwedeng gamitin ang flat rice noodles kapalit.",id:"Mi beras adalah makanan tradisional yang umum, mudah diterima lansia. Bisa diganti mi beras pipih sebagai camilan lansia."}},
+  {month:9,emoji:"🥘",kcal:175,
+    name:{zh:"皇宮菜麻油豬肝",en:"Malabar Spinach with Sesame Oil Pork Liver",fil:"Malabar Spinach na may Sesame Oil Liver",id:"Bayam Malabar Hati Babi Minyak Wijen"},
+    ing:{zh:"皇宮菜200克、豬肝90克、麻油1大匙、薑片少許、米酒少許、鹽少許",en:"Malabar spinach 200g, pork liver 90g, 1 tbsp sesame oil, ginger, wine, salt",fil:"Malabar spinach, atay ng baboy, sesame oil, luya, alak, asin",id:"Bayam malabar, hati babi, minyak wijen, jahe, arak, garam"},
+    method:{zh:"皇宮菜取嫩葉，豬肝切塊。麻油炒香薑片，加豬肝炒至略變色後盛起。鍋中放皇宮菜炒熟，加回豬肝，加米酒及鹽調味後熄火，燜3分鐘即可。",en:"Take tender Malabar spinach leaves, cube pork liver. Sauté ginger in sesame oil, add liver until it slightly changes color, set aside. Stir-fry spinach until cooked, add back the liver, season with wine and salt, turn off heat, rest 3 minutes.",fil:"Kunin ang malambot na dahon ng spinach, hiwain ang atay. Igisa ang luya sa sesame oil, idagdag ang atay hanggang magbago ang kulay, ilabas. Igisa ang spinach, ibalik ang atay, timplahan ng alak at asin, patayin ang apoy, hayaang 3 minuto.",id:"Ambil daun bayam malabar muda, potong hati babi. Tumis jahe dengan minyak wijen, tambahkan hati hingga berubah warna, sisihkan. Tumis bayam hingga matang, masukkan kembali hati, bumbui arak dan garam, matikan api, diamkan 3 menit."},
+    note:{zh:"皇宮菜有滑溜口感，有助長者吞嚥，且富含纖維可促進腸道蠕動。豬肝富含鐵質，有助正常紅血球形成。亦可用紅棗代替皇宮菜、牛肉代替豬肝。",en:"Malabar spinach has a slippery texture that helps swallowing and is fiber-rich for gut motility. Pork liver is rich in iron for red blood cell formation. You can substitute red dates for spinach and beef for liver.",fil:"May malambot na texture ang spinach na tumutulong sa paglunok, mayaman sa fiber. Mayaman sa iron ang atay para sa red blood cells. Puwedeng palitan ng red dates at beef.",id:"Bayam malabar bertekstur licin membantu menelan, kaya serat untuk pencernaan. Hati babi kaya zat besi untuk pembentukan sel darah merah. Bisa ganti dengan kurma merah dan daging sapi."}},
+  {month:10,emoji:"🐟",kcal:313,
+    name:{zh:"茄汁秋刀魚",en:"Saury in Tomato Sauce",fil:"Saury sa Tomato Sauce",id:"Ikan Saury Saus Tomat"},
+    ing:{zh:"秋刀魚2尾、番茄1碗(切丁)、洋蔥1/4顆、植物油2茶匙、米酒少許、糖少許、番茄醬2大匙",en:"2 Pacific saury, 1 bowl diced tomato, 1/4 onion, 2 tsp oil, wine, sugar, 2 tbsp ketchup",fil:"Saury, kamatis, sibuyas, langis, alak, asukal, ketchup",id:"Ikan saury, tomat, bawang bombay, minyak, arak, gula, saus tomat"},
+    method:{zh:"秋刀魚去頭尾內臟切塊。番茄、洋蔥切丁。鍋中加油炒番茄、洋蔥，加調味料及秋刀魚拌勻，移至壓力鍋燉煮至軟爛（或電鍋每次外鍋一杯水燉煮、燜半小時，反覆2~3次至魚骨軟化）。",en:"Remove head, tail and innards from saury, cut into pieces. Dice tomato and onion. Sauté tomato and onion in oil, add seasoning and saury, mix well, pressure-cook until tender (or steam in a rice cooker with 1 cup water each round, resting 30 min, repeating 2-3 times until bones soften).",fil:"Alisin ang ulo, buntot, at lamang-loob ng saury, hiwain. Tadtarin ang kamatis at sibuyas. Igisa ang kamatis at sibuyas, idagdag ang timpla at saury, i-pressure cook hanggang malambot.",id:"Buang kepala, ekor, isi ikan saury, potong. Potong dadu tomat dan bawang bombay. Tumis tomat dan bawang, tambahkan bumbu dan ikan, aduk rata, masak presto hingga lunak (atau kukus bertahap hingga tulang lunak)."},
+    note:{zh:"秋天是秋刀魚產季，魚骨煮至軟爛連魚肉一起食用可攝取鈣質。秋刀魚富含EPA、DHA及維生素B12，有助紅血球形成、增進神經系統健康。亦可用鯖魚代替秋刀魚。建議搭配適量米飯及蔬菜以達均衡營養。",en:"Autumn is saury season; softened bones eaten with the flesh provide calcium. Saury is rich in EPA, DHA, and vitamin B12, supporting red blood cell formation and nervous system health. Mackerel can substitute. Pair with rice and vegetables for balanced nutrition.",fil:"Tag-taglagas ang season ng saury; nagbibigay ng calcium ang malambot na buto. Mayaman sa EPA, DHA, at B12 ang saury para sa red blood cells at nervous system. Puwedeng palitan ng mackerel.",id:"Musim gugur adalah musim ikan saury; tulang lunak yang dimakan memberi kalsium. Saury kaya EPA, DHA, vitamin B12 untuk sel darah merah dan sistem saraf. Bisa diganti ikan makarel. Sajikan dengan nasi dan sayur untuk gizi seimbang."}},
+  {month:11,emoji:"🍳",kcal:210,
+    name:{zh:"菠菜起司烘蛋",en:"Spinach Cheese Baked Egg",fil:"Spinach Cheese Baked Egg",id:"Telur Panggang Bayam Keju"},
+    ing:{zh:"菠菜200克(切段)、雞蛋2個、奶油1茶匙、大蒜片2瓣、番茄少許、橄欖油1茶匙、起司絲35克、鹽少許、胡椒粉少許",en:"Spinach 200g, 2 eggs, 1 tsp butter, 2 garlic cloves, tomato, 1 tsp olive oil, shredded cheese 35g, salt, pepper",fil:"Spinach, itlog, mantikilya, bawang, kamatis, olive oil, cheese, asin, paminta",id:"Bayam, telur, mentega, bawang putih, tomat, minyak zaitun, keju parut, garam, merica"},
+    method:{zh:"菠菜切段。蛋打成蛋液加入菠菜。鍋加熱放奶油、蒜片，倒入蛋液料，鋪番茄、鹽、胡椒粉，淋橄欖油，中小火烘至5分熟，灑起司絲再加熱5分鐘至融化即可。",en:"Cut spinach into segments. Beat eggs and mix in spinach. Heat pan with butter and garlic, pour in egg mixture, top with tomato, salt, pepper, drizzle olive oil, cook on low-medium until half set, sprinkle cheese and cook 5 more minutes until melted.",fil:"Hiwain ang spinach. Paluin ang itlog, ihalo ang spinach. Init ang kawali na may mantikilya at bawang, ibuhos ang itlog, ilagay ang kamatis, asin, paminta, budburan ng olive oil, lutuin, budburan ng cheese hanggang matunaw.",id:"Potong bayam. Kocok telur, campur bayam. Panaskan wajan dengan mentega dan bawang putih, tuang adonan telur, tambahkan tomat, garam, merica, siram minyak zaitun, masak api kecil, taburi keju hingga meleleh."},
+    note:{zh:"秋冬為菠菜主要產季，富含維生素K及葉黃素。起司可減少菠菜青澀口感並增加食慾。亦可用洋蔥、花椰菜、蘆筍代替菠菜，增加蔬菜多樣性。",en:"Autumn/winter is spinach season, rich in vitamin K and lutein. Cheese reduces spinach's grassy taste and boosts appetite. You can substitute onion, broccoli, or asparagus for variety.",fil:"Ang taglagas/taglamig ay season ng spinach, mayaman sa Vitamin K. Binabawasan ng cheese ang lasa ng spinach. Puwedeng gamitin ang sibuyas, broccoli, o asparagus.",id:"Musim gugur/dingin adalah musim bayam, kaya vitamin K dan lutein. Keju mengurangi rasa langu bayam dan menambah nafsu makan. Bisa ganti dengan bawang bombay, brokoli, atau asparagus."}},
+  {month:12,emoji:"🍲",kcal:200,
+    name:{zh:"白菜燉雞湯",en:"Napa Cabbage Chicken Soup",fil:"Sabaw ng Napa Cabbage at Manok",id:"Sup Ayam Sawi Putih"},
+    ing:{zh:"大白菜1/4顆(250克)、白蘿蔔1/4條(150克)、香菇3~4朵、去骨雞腿1/3支(200克)、薑片3~4片、枸杞少許、水1杯、鹽少許",en:"Napa cabbage 1/4 head (250g), daikon 1/4 (150g), 3-4 shiitake, boneless chicken thigh 1/3 (200g), ginger, goji berries, 1 cup water, salt",fil:"Napa cabbage, labanos, kabute, manok, luya, goji berries, tubig, asin",id:"Sawi putih, lobak, jamur shiitake, paha ayam tanpa tulang, jahe, goji berry, air, garam"},
+    method:{zh:"大白菜、白蘿蔔、香菇洗淨切塊。去骨雞腿切塊川燙。所有食材放入鍋中加水淹過，入電鍋(外鍋1杯水)燉煮，開關跳起後再燜30分鐘，起鍋前加鹽即可。",en:"Cut napa cabbage, daikon, and shiitake into chunks. Blanch chicken thigh chunks. Put all ingredients in a pot with water to cover, steam-cook (1 cup water in outer pot), rest 30 minutes after done, season with salt before serving.",fil:"Hiwain ang cabbage, labanos, kabute. Iluto ang manok. Ilagay ang lahat sa palayok na may tubig, i-steam, hayaang 30 minuto, timplahan ng asin.",id:"Potong sawi putih, lobak, jamur shiitake. Rebus potongan ayam. Masukkan semua bahan ke panci dengan air, kukus, diamkan 30 menit, bumbui garam sebelum disajikan."},
+    note:{zh:"冬天為大白菜產季，雞肉肉質較軟，適合高齡者食用。十字花科蔬菜含胡蘿蔔素、維生素B群、C、鐵等營養素，亦可用來代替白菜、白蘿蔔。",en:"Winter is napa cabbage season; chicken is tender and suitable for elders. Cruciferous vegetables provide carotene, B vitamins, C, and iron, and can substitute for cabbage or daikon.",fil:"Taglamig ang season ng napa cabbage; malambot ang manok, angkop sa matatanda. May carotene, Vitamin B, C, iron ang mga cruciferous vegetables.",id:"Musim dingin adalah musim sawi putih; ayam empuk cocok untuk lansia. Sayuran cruciferous kaya karoten, vitamin B, C, zat besi, bisa menggantikan sawi atau lobak."}}
+];
+
+/* ---------- state ---------- */
+let state = {
+  onb: 0,          // 0 splash, 1 lang, 2 carousel, 3 done
+  carouselIdx: 0,
+  lang: "zh",
+  tab: "home",
+  view: "home",     // home | levelDetail | recipeList | recipeDetail
+  levelN: null,
+  filterCat: null,
+  searchQuery: "",
+  calYear: 2026, calMonth: 7, calDay: 27,
+  fontStep: 1,      // 0 small,1 medium,2 large
+  contrast: false,
+  editPatient: false,
+  voiceStatus: ""   // "" | "listening" | "processing"
+};
+let recipeDraft = {name:"",cat:"grain",level:4,ing:"",method:"",note:""};
+let logDraft = {food:"",cat:"protein",recorder:""};
+let visitDraft = {date:"2026-07-27",clinic:"",content:"",recorder:""};
+let patientDraft = {...patientInfo};
+
+/* ---------- voice (real Web Speech API + mic permission) ---------- */
+let activeRecognizer = null;
+function voiceInput(targetSetter, btnEl){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    alert("這個瀏覽器不支援語音辨識（建議使用電腦版或手機版 Chrome）。");
+    return;
+  }
+  if(!window.isSecureContext){
+    alert("語音辨識需要在安全環境（https 或 localhost）下才能啟動麥克風，請將此原型部署到 https 網址後再測試語音功能。");
+    return;
+  }
+  navigator.mediaDevices?.getUserMedia?.({audio:true}).then((stream)=>{
+    stream.getTracks().forEach(tr=>tr.stop());
+    startRecognition(SR, targetSetter, btnEl);
+  }).catch((err)=>{
+    if(err.name === "NotAllowedError" || err.name === "PermissionDeniedError"){
+      alert("尚未取得麥克風權限，請至瀏覽器設定允許此網站使用麥克風後再試一次。");
+    }else{
+      startRecognition(SR, targetSetter, btnEl);
+    }
+  });
+}
+function startRecognition(SR, targetSetter, btnEl){
+  if(activeRecognizer){ try{ activeRecognizer.stop(); }catch(e){} }
+  const rec = new SR();
+  const map = {zh:"zh-TW", en:"en-US", fil:"fil-PH", id:"id-ID"};
+  rec.lang = map[state.lang] || "zh-TW";
+  rec.interimResults = true;
+  rec.maxAlternatives = 1;
+  activeRecognizer = rec;
+  if(btnEl){ btnEl.setAttribute("aria-pressed","true"); btnEl.textContent="🔴"; btnEl.title="聆聽中，請說話..."; }
+  rec.onresult = (e)=>{
+    let finalTxt = "";
+    for(let i=0;i<e.results.length;i++){ if(e.results[i].isFinal) finalTxt += e.results[i][0].transcript; }
+    if(finalTxt){ targetSetter(finalTxt); render(); }
+  };
+  rec.onerror = (e)=>{
+    const msgs = {
+      "not-allowed":"麥克風權限被拒絕，請至瀏覽器網站設定允許麥克風。",
+      "no-speech":"沒有偵測到語音，請再靠近麥克風說話一次。",
+      "audio-capture":"找不到可用的麥克風裝置。",
+      "network":"語音辨識需要網路連線，請確認網路狀態後再試。"
+    };
+    alert(msgs[e.error] || ("語音辨識發生錯誤：" + e.error));
+  };
+  rec.onend = ()=>{ if(btnEl){ btnEl.setAttribute("aria-pressed","false"); btnEl.textContent="🎙️"; btnEl.title=""; } activeRecognizer=null; };
+  try{ rec.start(); }catch(err){ alert("無法啟動語音辨識：" + err.message); }
+}
+function micBtn(id, onText){
+  return `<button class="mic-btn" id="${id}" aria-label="${t('micHint')}" aria-pressed="false" onclick="voiceInput(${onText}, this)">🎙️</button>`;
+}
+
+/* ---------- onboarding ---------- */
+function renderOnboarding(){
+  if(state.onb===0){
+    return `<div class="onb">
+      <div>
+        <div class="logo">🍚🧡</div>
+        <h1>${t('appName')}</h1>
+        <h2>${t('slogan')}</h2>
+      </div>
+      <div>
+        <button class="onb-btn" onclick="state.onb=1;render()">${t('onbStart')}</button>
+      </div>
+    </div>`;
+  }
+  if(state.onb===1){
+    return `<div class="onb" style="justify-content:flex-start;">
+      <div>
+        <h1 style="font-size:1.3rem;">${t('onbChooseLang')}</h1>
+        <div class="lang-grid">
+          ${LANGS.map(l=>`<button class="lang-opt ${state.lang===l.key?'sel':''}" onclick="state.lang='${l.key}';render()">${l.label}</button>`).join("")}
+        </div>
+      </div>
+      <button class="onb-btn" onclick="state.onb=2;render()">${t('onbNext')}</button>
+    </div>`;
+  }
+  if(state.onb===2){
+    const slides = [
+      {em:"📖", t:"slide1T", d:"slide1D"},
+      {em:"📋", t:"slide2T", d:"slide2D"},
+      {em:"🩺", t:"slide3T", d:"slide3D"}
+    ];
+    const s = slides[state.carouselIdx];
+    const isLast = state.carouselIdx === slides.length-1;
+    return `<div class="onb" style="position:relative;">
+      <button class="skip" onclick="state.onb=3;render()">${t('onbSkip')}</button>
+      <div>
+        <div class="carousel-emoji">${s.em}</div>
+        <h1 style="font-size:1.25rem;">${t(s.t)}</h1>
+        <h2 style="font-size:.9rem;">${t(s.d)}</h2>
+        <div class="dots">${slides.map((_,i)=>`<div class="dot ${i===state.carouselIdx?'on':''}"></div>`).join("")}</div>
+      </div>
+      <button class="onb-btn" onclick="${isLast? 'state.onb=3;render()' : 'state.carouselIdx++;render()'}">${isLast? t('onbStart') : t('onbNext')}</button>
+    </div>`;
+  }
+}
+
+/* ---------- shared UI bits ---------- */
+function levelBadge(n, size){
+  const lv = LEVELS[n]; const s = size||34;
+  return `<div class="badge" style="background:${lv.color};color:${lv.tc};width:${s}px;height:${s}px;font-size:${s*0.42}px;">${n}</div>`;
+}
+function levelBadgeMini(n){ const lv=LEVELS[n]; return `<div class="mini-badge" style="background:${lv.color};color:${lv.tc}">${n}</div>`; }
+function levelBadgeMiniInline(n){ const lv=LEVELS[n]; return `<span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:${lv.color};color:${lv.tc};font-size:.68rem;font-weight:800;vertical-align:middle;">${n}</span>`; }
+function catName(key){ return trField((CATEGORIES.find(c=>c.key===key)||{}).name) || key; }
+function catEm(key){ return (CATEGORIES.find(c=>c.key===key)||{}).em || "🍽️"; }
+
+function a11yBar(){
+  return `<div class="a11y-bar" role="toolbar" aria-label="${t('a11yLabel')}">
+    <span>${t('fontSize')}:</span>
+    <button class="fs-btn ${state.fontStep===0?'active':''}" aria-label="${t('smallFontLabel')}" onclick="setFont(0)">A</button>
+    <button class="fs-btn ${state.fontStep===1?'active':''}" style="font-size:.85rem" aria-label="${t('medFontLabel')}" onclick="setFont(1)">A</button>
+    <button class="fs-btn ${state.fontStep===2?'active':''}" style="font-size:1rem" aria-label="${t('largeFontLabel')}" onclick="setFont(2)">A</button>
+    <button class="fs-btn ${state.contrast?'active':''}" style="width:auto;padding:0 6px;" aria-pressed="${state.contrast}" onclick="toggleContrast()">${t('contrastMode')}</button>
+    <select aria-label="${t('langSwitchLabel')}" onchange="state.lang=this.value;render()" style="margin:0;padding:2px 4px;width:auto;font-size:.68rem;">
+      ${LANGS.map(l=>`<option value="${l.key}" ${state.lang===l.key?'selected':''}>${l.native}</option>`).join("")}
+    </select>
+  </div>`;
+}
+function setFont(n){ state.fontStep=n; document.documentElement.style.setProperty('--fs', n===0?"13px":n===2?"18px":"15px"); render(); }
+function toggleContrast(){ state.contrast=!state.contrast; document.body.classList.toggle('contrast', state.contrast); render(); }
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const q = state.searchQuery.trim().toLowerCase();
+  const searchResults = q ? RECIPES.filter(r=> Object.values(typeof r.name==="string"?{v:r.name}:r.name).some(v=>v.toLowerCase().includes(q))) : [];
+  const drinkLevels = LEVELS.filter(l=>l.n<=2);
+  const bothLevels = LEVELS.filter(l=>l.n===3);
+  const foodLevels = LEVELS.filter(l=>l.n>=4);
+  return `
+  <div class="topbar">
+    <div class="topbar-row"><div><h1>${t('homeTitle')}</h1><p>${t('homeSub')}</p></div></div>
+  </div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="warn">⚠️ ${t('warnText')}</div>
+    <div class="search-box">
+      <input id="searchInput" aria-label="${t('searchPh')}" placeholder="${t('searchPh')}" value="${state.searchQuery}" oninput="onSearchInput(this.value)">
+    </div>
+    ${q? `
+      <div class="section-title">${t('searchResultsLabel')}（${searchResults.length}）</div>
+      ${searchResults.length? searchResults.map(r=>`
+        <div class="food-item" onclick="openRecipe(${r.id})">
+          <div class="emoji">${catEm(r.cat)}</div>
+          <div class="info"><h4>${trField(r.name)}</h4><p>${catName(r.cat)}｜${trField(r.method).slice(0,16)}...</p></div>
+          ${levelBadgeMini(r.level)}
+        </div>`).join("") : `<div class="empty">${t('noRecipeFound')}</div>`}
+    ` : `
+    <div class="section-title">${t('drinkSection')}</div>
+    <div class="level-grid">${drinkLevels.map(cardHtml).join("")}</div>
+    <div class="section-title">${t('bothSection')}</div>
+    <div class="level-grid">${bothLevels.map(cardHtml).join("")}</div>
+    <div class="section-title">${t('foodSection')}</div>
+    <div class="level-grid">${foodLevels.map(cardHtml).join("")}</div>
+    ${renderMonthlySection()}
+    `}
+  </div>`;
+}
+/* ---------- 本月營養食譜（來源：國健署《高齡營養健康食譜》） ---------- */
+function renderMonthlySection(){
+  const curMonth = new Date().getMonth()+1;
+  const cur = MONTHLY_RECIPES.find(m=>m.month===curMonth);
+  return `
+    <div class="section-title">${t('monthlySectionLabel')}</div>
+    <p style="font-size:.72rem;color:var(--sub);margin:-4px 0 10px;">${t('monthlySourceNote')}</p>
+    ${cur? `
+    <div class="food-item" onclick="openMonthly(${cur.month})" style="border:2px solid var(--accent);">
+      <div class="emoji">🗓️</div>
+      <div class="info"><h4>${t('thisMonthLabel')}・${trField(cur.name)}</h4><p>${cur.kcal} ${t('kcalUnit')}</p></div>
+    </div>` : ""}
+    <div class="cat-grid">
+      ${MONTHLY_RECIPES.map(m=>`<button class="cat-card" onclick="openMonthly(${m.month})"><div class="em">${m.emoji}</div><h4>${monthLabel(m.month)}</h4><p style="font-size:.68rem;color:var(--sub);margin-top:2px;">${trField(m.name)}</p></button>`).join("")}
+    </div>
+  `;
+}
+const MONTH_NAMES_EN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function monthLabel(n){
+  if(state.lang==="zh") return n+"月";
+  return MONTH_NAMES_EN[n-1];
+}
+function openMonthly(month){ state.monthlyMonth = month; state.view = "monthlyDetail"; render(); }
+function renderMonthlyDetail(month){
+  const m = MONTHLY_RECIPES.find(x=>x.month===month);
+  return `
+  <div class="topbar"><button class="backbtn" onclick="state.view='home';render()">${t('backHome')}</button><h1>${m.emoji} ${trField(m.name)}</h1><p>${monthLabel(m.month)}</p></div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="detail-hero"><div class="badge" style="background:var(--accent);width:46px;height:46px;font-size:.9rem;">${m.kcal}</div><div><h2>${trField(m.name)}</h2><span>${t('kcalPerServing')}</span></div></div>
+    <div class="card"><h4>${t('ingredientsLabel')}</h4><p>${trField(m.ing)}</p></div>
+    <div class="card"><h4>${t('methodLabel')}</h4><p>${trField(m.method)}</p></div>
+    <div class="card"><h4>${t('careNoteLabel')}</h4><p>${trField(m.note)}</p></div>
+  </div>`;
+}
+function cardHtml(lv){
+  return `<button class="level-card" onclick="openLevel(${lv.n})" aria-label="Level ${lv.n} ${lv.name}">
+    ${levelBadge(lv.n)}
+    <h3>Level ${lv.n}</h3>
+    <p>${lv.name.split(" ")[0]}</p>
+  </button>`;
+}
+function onSearchInput(v){ state.searchQuery=v; render(); const el=document.getElementById("searchInput"); if(el){ el.focus(); el.selectionStart=v.length; } }
+
+function openLevel(n){ state.levelN=n; state.filterCat=null; state.view = n<=3 ? "levelDetail" : "categoryList"; render(); }
+
+/* level 0-3 drink detail */
+function renderLevelDetail(n){
+  const lv = LEVELS[n];
+  return `
+  <div class="topbar"><button class="backbtn" onclick="state.view='home';render()">${t('backHome')}</button><h1>Level ${n}．${lv.name}</h1></div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="detail-hero">${levelBadge(n,46)}<div><h2>${lv.name}</h2><span>${t('applicableType')}：${lv.type}</span></div></div>
+    <div class="card"><h4>${t('descLabel')}</h4><p>${lv.desc}</p></div>
+    <div class="card"><h4>${t('testLabel')}</h4><p>${lv.test}</p></div>
+  </div>`;
+}
+
+/* level 4-7 -> category grid -> filtered recipe database */
+function renderCategoryList(){
+  const n = state.levelN; const lv = LEVELS[n];
+  return `
+  <div class="topbar"><button class="backbtn" onclick="state.view='home';render()">${t('backHome')}</button><h1>Level ${n}．${lv.name}</h1><p>${t('chooseCategoryDesc')}</p></div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="detail-hero">${levelBadge(n,46)}<div><h2>${lv.name}</h2><span>${lv.desc.slice(0,20)}...</span></div></div>
+    <div class="section-title">${t('sixCategoriesLabel')}</div>
+    <div class="cat-grid">
+      ${CATEGORIES.map(c=>`<button class="cat-card" onclick="state.filterCat='${c.key}';render()"><div class="em">${c.em}</div><h4>${trField(c.name)}</h4></button>`).join("")}
+    </div>
+    ${renderRecipeListForLevelCat(n, state.filterCat)}
+  </div>`;
+}
+function renderRecipeListForLevelCat(n, catKey){
+  let list = RECIPES.filter(r=>r.level===n);
+  if(catKey) list = list.filter(r=>r.cat===catKey);
+  return `
+    <div class="section-title">${t('recipeDbLabel')}${catKey? "："+catName(catKey):""}（${list.length}）</div>
+    ${list.length? list.map(r=>`
+      <div class="food-item" onclick="openRecipe(${r.id})">
+        <div class="emoji">${catEm(r.cat)}</div>
+        <div class="info"><h4>${trField(r.name)}${r.src==='custom'?` <span style="color:var(--accent);font-size:.65rem;">(${t('customTag')})</span>`:''}</h4><p>${trField(r.ing)}</p></div>
+      </div>`).join("") : `<div class="empty">${t('noRecipeInCategory')}</div>`}
+  `;
+}
+function openRecipe(id){ state.recipeId=id; state.view="recipeDetail"; render(); }
+function renderRecipeDetail(id){
+  const r = RECIPES.find(x=>x.id===id);
+  const lv = LEVELS[r.level];
+  return `
+  <div class="topbar"><button class="backbtn" onclick="state.view = state.levelN? 'categoryList':'home';render()">${t('back')}</button><h1>${catEm(r.cat)} ${trField(r.name)}</h1></div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="detail-hero">${levelBadge(r.level,46)}<div><h2>Level ${r.level}．${lv.name.split(" ")[0]}</h2><span>${catName(r.cat)}</span></div></div>
+    <div class="card"><h4>${t('ingredientsLabel')}</h4><p>${trField(r.ing)}</p></div>
+    <div class="card"><h4>${t('methodLabel')}</h4><p>${trField(r.method)}</p></div>
+    <div class="card"><h4>${t('careNoteLabel')}</h4><p>${trField(r.note)}</p></div>
+  </div>`;
+}
+
+/* ---------- LOG (共同紀錄 style) ---------- */
+function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }
+function firstWeekday(y,m){ return new Date(y,m-1,1).getDay(); }
+function renderLog(){
+  const y=state.calYear, m=state.calMonth;
+  const total = daysInMonth(y,m), startDow = firstWeekday(y,m);
+  const dateStr = (d)=> `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  const selDate = dateStr(state.calDay);
+  const entries = DIET_LOG.filter(e=>e.date===selDate);
+  const cellDays = [];
+  for(let i=0;i<startDow;i++) cellDays.push(null);
+  for(let d=1;d<=total;d++) cellDays.push(d);
+  return `
+  <div class="topbar"><h1>${t('navLog')}</h1><p>${t('navLogSub')}</p></div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="shared-note">${t('sharedNoteLog')}</div>
+    <div class="cal-nav">
+      <button aria-label="${t('prevMonth')}" onclick="changeMonth(-1)">‹</button>
+      <strong>${y}年${m}月</strong>
+      <button aria-label="${t('nextMonth')}" onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="calendar">
+      ${["日","一","二","三","四","五","六"].map(d=>`<div class="cal-h">${d}</div>`).join("")}
+      ${cellDays.map(d=>{
+        if(d===null) return `<div></div>`;
+        const has = DIET_LOG.some(e=>e.date===dateStr(d));
+        const sel = d===state.calDay;
+        return `<button class="cal-d ${sel?'sel':''} ${has?'has':''}" onclick="state.calDay=${d};render()" aria-label="${m}月${d}日">${d}</button>`;
+      }).join("")}
+    </div>
+    <button class="btn-primary" onclick="state.showLogForm=true;render()">${t('addEntry')}（${m}月${state.calDay}日）</button>
+    ${state.showLogForm ? `
+    <div class="card" style="margin-top:12px;">
+      <h4>${t('newEntryTitle')}・${m}月${state.calDay}日</h4>
+      <label class="f-label">${t('foodNameLabel')}</label>
+      <div class="field-row"><input id="logFoodInput" value="${logDraft.food}" oninput="logDraft.food=this.value" placeholder="${t('foodNamePh')}">${micBtn('logMic',"(txt)=>{logDraft.food=txt;}")}</div>
+      <label class="f-label">${t('categoryLabel')}</label>
+      <div class="chip-row">${CATEGORIES.map(c=>`<div class="chip ${logDraft.cat===c.key?'active':''}" onclick="logDraft.cat='${c.key}';render()">${c.em} ${trField(c.name)}</div>`).join("")}</div>
+      <label class="f-label">${t('recorderLabel')}</label>
+      <input value="${logDraft.recorder}" oninput="logDraft.recorder=this.value" placeholder="${t('recorderPh')}">
+      <label class="f-label">${t('noteOptionalLabel')}</label>
+      <input value="${logDraft.note||''}" oninput="logDraft.note=this.value" placeholder="${t('logNotePh')}">
+      <div class="btn-row"><button class="btn-primary" onclick="saveLog(${m},${state.calDay})">${t('saveBtn')}</button><button class="btn-ghost" onclick="state.showLogForm=false;render()">${t('cancelBtn')}</button></div>
+    </div>` : ""}
+    <div class="section-title">${m}月${state.calDay}日${t('entriesForDay')}（${entries.length}）</div>
+    ${entries.length? entries.map(e=>`
+      <div class="card">
+        <h4 style="color:var(--ink);">${catEm(e.cat)} ${trField(e.food)}</h4>
+        <p style="color:var(--sub);font-size:.75rem;">${t('recorderLabel')}：${e.recorder}｜${catName(e.cat)}</p>
+        ${e.note?`<p style="margin-top:4px;">${trField(e.note)}</p>`:""}
+      </div>`).join("") : `<div class="empty">${t('noEntriesForDate')}</div>`}
+  </div>`;
+}
+function changeMonth(delta){
+  let m = state.calMonth + delta, y = state.calYear;
+  if(m<1){m=12;y--;} if(m>12){m=1;y++;}
+  state.calMonth=m; state.calYear=y; state.calDay=1; render();
+}
+function saveLog(m,d){
+  if(!logDraft.food || !logDraft.recorder){ alert("請至少填寫食物名稱與紀錄者"); return; }
+  DIET_LOG.push({date:`${state.calYear}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`, food:logDraft.food, cat:logDraft.cat, recorder:logDraft.recorder, note:logDraft.note||""});
+  logDraft = {food:"",cat:"protein",recorder:""};
+  state.showLogForm=false; render();
+}
+
+/* ---------- ADD RECIPE ---------- */
+function renderRecipeForm(){
+  const custom = RECIPES.filter(r=>r.src==='custom');
+  return `
+  <div class="topbar"><h1>${t('navRecipe')}</h1><p>${t('recipeFormDesc')}</p></div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="shared-note">${t('recipeSharedNote')}</div>
+    <div class="card">
+      <h4>${t('recipeContentLabel')}</h4>
+      <label class="f-label">${t('recipeNameLabel')}</label>
+      <div class="field-row"><input value="${recipeDraft.name}" oninput="recipeDraft.name=this.value" placeholder="${t('recipeNamePh')}">${micBtn('recNameMic',"(txt)=>{recipeDraft.name=txt;}")}</div>
+      <label class="f-label">${t('categoryBelongLabel')}</label>
+      <div class="chip-row">${CATEGORIES.map(c=>`<div class="chip ${recipeDraft.cat===c.key?'active':''}" onclick="recipeDraft.cat='${c.key}';render()">${c.em} ${trField(c.name)}</div>`).join("")}</div>
+      <label class="f-label">${t('textureLevelLabel')}</label>
+      <div class="chip-row">${[4,5,6,7].map(n=>`<div class="chip ${recipeDraft.level===n?'active':''}" onclick="recipeDraft.level=${n};render()">Lv.${n} ${LEVELS[n].name.split(" ")[0]}</div>`).join("")}</div>
+      <label class="f-label">${t('ingredientsLabel')}</label>
+      <div class="field-row"><textarea rows="2" oninput="recipeDraft.ing=this.value" placeholder="${t('ingPh')}">${recipeDraft.ing}</textarea>${micBtn('recIngMic',"(txt)=>{recipeDraft.ing=txt;}")}</div>
+      <label class="f-label">${t('methodLabel')}</label>
+      <div class="field-row"><textarea rows="3" oninput="recipeDraft.method=this.value" placeholder="${t('methodPh')}">${recipeDraft.method}</textarea>${micBtn('recMethodMic',"(txt)=>{recipeDraft.method=txt;}")}</div>
+      <label class="f-label">${t('noteOptionalLabel')}</label>
+      <input value="${recipeDraft.note}" oninput="recipeDraft.note=this.value" placeholder="${t('careNotePh')}">
+      <button class="btn-primary" onclick="saveRecipe()">${t('saveRecipeBtn')}</button>
+    </div>
+    <div class="section-title">${t('customRecipesLabel')}（${custom.length}）</div>
+    ${custom.length? custom.map(r=>`
+      <div class="food-item" onclick="openRecipe(${r.id})">
+        <div class="emoji">${catEm(r.cat)}</div>
+        <div class="info"><h4>${trField(r.name)}</h4><p>${catName(r.cat)}｜Lv.${r.level}</p></div>
+        ${levelBadgeMini(r.level)}
+      </div>`).join("") : `<div class="empty">${t('noCustomRecipe')}</div>`}
+  </div>`;
+}
+function saveRecipe(){
+  if(!recipeDraft.name || !recipeDraft.method){ alert("請至少填寫食譜名稱與作法"); return; }
+  const id = Math.max(...RECIPES.map(r=>r.id))+1;
+  RECIPES.push({id, name:recipeDraft.name, cat:recipeDraft.cat, level:recipeDraft.level, ing:recipeDraft.ing||"未填寫", method:recipeDraft.method, note:recipeDraft.note||"", src:"custom"});
+  recipeDraft = {name:"",cat:"grain",level:4,ing:"",method:"",note:""};
+  render();
+}
+
+/* ---------- VISIT LOG ---------- */
+function renderPatientCard(){
+  if(state.editPatient){
+    return `
+    <div class="card" style="border:2px solid var(--accent);">
+      <h4>${t('patientCardTitleEdit')}</h4>
+      <label class="f-label">${t('nameLabel')}</label>
+      <input value="${patientDraft.name}" oninput="patientDraft.name=this.value">
+      <div class="btn-row">
+        <div style="flex:1;"><label class="f-label">${t('ageLabel')}</label><input value="${patientDraft.age}" oninput="patientDraft.age=this.value"></div>
+        <div style="flex:1;"><label class="f-label">${t('genderLabel')}</label><input value="${trField(patientDraft.gender)}" oninput="patientDraft.gender=this.value"></div>
+      </div>
+      <label class="f-label">${t('diagnosisLabel')}</label>
+      <input value="${trField(patientDraft.diagnosis)}" oninput="patientDraft.diagnosis=this.value" placeholder="${t('diagnosisPh')}">
+      <label class="f-label">${t('allergyLabel')}</label>
+      <input value="${trField(patientDraft.allergy)}" oninput="patientDraft.allergy=this.value" placeholder="${t('allergyPh')}">
+      <label class="f-label">${t('mainCarerLabel')}</label>
+      <input value="${patientDraft.mainCarer}" oninput="patientDraft.mainCarer=this.value">
+      <label class="f-label">${t('suggestedLevelLabel')}</label>
+      <div class="chip-row">${[3,4,5,6,7].map(n=>`<div class="chip ${patientDraft.iddsiLevel===n?'active':''}" onclick="patientDraft.iddsiLevel=${n};render()">Lv.${n}</div>`).join("")}</div>
+      <div class="btn-row"><button class="btn-primary" onclick="savePatient()">${t('savePatientBtn')}</button><button class="btn-ghost" onclick="state.editPatient=false;render()">${t('cancelBtn')}</button></div>
+    </div>`;
+  }
+  return `
+    <div class="card" style="border-left:5px solid var(--accent);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <h4 style="margin:0;">${t('patientCardTitle')}</h4>
+        <button class="chip" onclick="patientDraft={...patientInfo};state.editPatient=true;render()" aria-label="${t('editBtn')}">${t('editBtn')}</button>
+      </div>
+      <p style="margin-top:6px;"><strong style="color:var(--ink);font-size:.95rem;">${patientInfo.name}</strong>　${patientInfo.age}${t('ageYearsUnit')}｜${trField(patientInfo.gender)}</p>
+      <p style="margin-top:4px;">${t('diagnosisPrefix')}${trField(patientInfo.diagnosis)}</p>
+      <p style="margin-top:2px;">${t('allergyPrefix')}${trField(patientInfo.allergy) || t('noAllergyText')}</p>
+      <p style="margin-top:2px;">${t('mainCarerPrefix')}${patientInfo.mainCarer}</p>
+      <p style="margin-top:6px;">${t('suggestedTexturePrefix')}${levelBadgeMiniInline(patientInfo.iddsiLevel)} Level ${patientInfo.iddsiLevel}</p>
+    </div>`;
+}
+function savePatient(){
+  if(!patientDraft.name){ alert("請至少填寫姓名"); return; }
+  patientInfo = {...patientDraft};
+  state.editPatient=false; render();
+}
+function renderVisit(){
+  const sorted = [...VISIT_LOG].sort((a,b)=>b.date.localeCompare(a.date));
+  return `
+  <div class="topbar"><h1>${t('navVisit')}</h1><p>${t('visitDesc')}</p></div>
+  ${a11yBar()}
+  <div class="content">
+    ${renderPatientCard()}
+    <div class="shared-note">${t('visitSharedNote')}</div>
+    <button class="btn-primary" onclick="state.showVisitForm=true;render()">${t('addVisitBtn')}</button>
+    ${state.showVisitForm? `
+    <div class="card" style="margin-top:12px;">
+      <h4>${t('visitVoiceTitle')}</h4>
+      <label class="f-label">${t('visitDateLabel')}</label>
+      <input type="date" value="${visitDraft.date}" oninput="visitDraft.date=this.value">
+      <label class="f-label">${t('clinicLabel')}</label>
+      <input value="${visitDraft.clinic}" oninput="visitDraft.clinic=this.value" placeholder="${t('clinicPh')}">
+      <label class="f-label">${t('visitContentLabel')}</label>
+      <div class="field-row"><textarea rows="3" oninput="visitDraft.content=this.value" placeholder="${t('visitContentPh')}">${visitDraft.content}</textarea>${micBtn('visitMic',"(txt)=>{visitDraft.content=(visitDraft.content? visitDraft.content+' ':'')+txt;}")}</div>
+      <label class="f-label">${t('recorderLabel')}</label>
+      <input value="${visitDraft.recorder}" oninput="visitDraft.recorder=this.value" placeholder="${t('recorderPh')}">
+      <div class="btn-row"><button class="btn-primary" onclick="saveVisit()">${t('saveVisitBtn')}</button><button class="btn-ghost" onclick="state.showVisitForm=false;render()">${t('cancelBtn')}</button></div>
+    </div>` : ""}
+    <div class="section-title">${t('visitLogLabel')}（${sorted.length}）</div>
+    ${sorted.length? sorted.map(v=>`
+      <div class="card">
+        <h4 style="color:var(--ink);">🩺 ${v.date}${v.clinic? '｜'+trField(v.clinic):''}</h4>
+        <p>${trField(v.content)}</p>
+        <p style="color:var(--sub);font-size:.75rem;margin-top:4px;">${t('recorderLabel')}：${v.recorder}</p>
+      </div>`).join("") : `<div class="empty">${t('noVisitLog')}</div>`}
+  </div>`;
+}
+function saveVisit(){
+  if(!visitDraft.content || !visitDraft.recorder){ alert("請至少填寫看診內容與紀錄者"); return; }
+  VISIT_LOG.push({date:visitDraft.date, clinic:visitDraft.clinic, content:visitDraft.content, recorder:visitDraft.recorder});
+  visitDraft = {date:visitDraft.date, clinic:"", content:"", recorder:""};
+  state.showVisitForm=false; render();
+}
+
+/* ---------- render dispatcher ---------- */
+function render(){
+  const screen = document.getElementById("screen");
+  const tabbar = document.getElementById("tabbar");
+  if(state.onb < 3){
+    tabbar.hidden = true;
+    screen.innerHTML = renderOnboarding();
+    screen.scrollTop = 0;
+    return;
+  }
+  tabbar.hidden = false;
+  tabbar.innerHTML = `
+    <button class="tab ${state.tab==='home'?'active':''}" onclick="goTab('home')"><div class="ic">🏠</div>${t('navHome')}</button>
+    <button class="tab ${state.tab==='log'?'active':''}" onclick="goTab('log')"><div class="ic">📋</div>${t('navLog')}</button>
+    <button class="tab ${state.tab==='recipe'?'active':''}" onclick="goTab('recipe')"><div class="ic">📝</div>${t('navRecipe')}</button>
+    <button class="tab ${state.tab==='visit'?'active':''}" onclick="goTab('visit')"><div class="ic">🩺</div>${t('navVisit')}</button>
+  `;
+  if(state.tab==="home"){
+    if(state.view==="home") screen.innerHTML = renderHome();
+    else if(state.view==="levelDetail") screen.innerHTML = renderLevelDetail(state.levelN);
+    else if(state.view==="categoryList") screen.innerHTML = renderCategoryList();
+    else if(state.view==="recipeDetail") screen.innerHTML = renderRecipeDetail(state.recipeId);
+    else if(state.view==="monthlyDetail") screen.innerHTML = renderMonthlyDetail(state.monthlyMonth);
+  } else if(state.tab==="log"){ screen.innerHTML = renderLog(); }
+  else if(state.tab==="recipe"){ screen.innerHTML = renderRecipeForm(); }
+  else if(state.tab==="visit"){ screen.innerHTML = renderVisit(); }
+  screen.scrollTop = 0;
+}
+function goTab(tabName){ state.tab=tabName; state.view="home"; state.searchQuery=""; render(); }
+
+render();
+</script>
+</body>
+</html>
