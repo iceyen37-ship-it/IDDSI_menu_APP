@@ -104,6 +104,14 @@
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
   .skiplink{position:absolute;left:-999px;top:0;background:#fff;color:#000;padding:8px;z-index:50;}
   .skiplink:focus{left:8px;}
+  .menu-btn-list{display:flex;flex-direction:column;gap:12px;margin-top:6px;}
+  .menu-main-btn{display:flex;align-items:center;gap:14px;background:var(--card);border:none;border-radius:16px;padding:18px 16px;box-shadow:0 1px 4px rgba(0,0,0,.08);cursor:pointer;text-align:left;width:100%;}
+  .menu-main-btn:focus-visible{outline:3px solid var(--accent);}
+  .menu-main-btn-em{font-size:2rem;flex-shrink:0;width:44px;text-align:center;}
+  .menu-main-btn-text h3{margin:0;font-size:1rem;color:var(--ink);}
+  .menu-main-btn-text p{margin:3px 0 0;font-size:.75rem;color:var(--sub);}
+  .video-frame{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:12px;overflow:hidden;margin-top:8px;}
+  .video-frame .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;text-align:center;padding:0 18px;line-height:1.6;}
 </style>
 </head>
 <body>
@@ -129,12 +137,12 @@ const I18N = {
   onbNext:{zh:"下一步",en:"Next",fil:"Susunod",id:"Berikutnya"},
   onbSkip:{zh:"略過",en:"Skip",fil:"Laktawan",id:"Lewati"},
   slide1T:{zh:"食譜資料庫",en:"Recipe Database",fil:"Database ng Recipe",id:"Basis Data Resep"},
-  slide1D:{zh:"依IDDSI 0-7級查詢對應食譜與飲品做法",en:"Browse recipes and drinks by IDDSI level 0-7",fil:"Maghanap ng recipe ayon sa antas ng IDDSI",id:"Cari resep berdasarkan level IDDSI"},
+  slide1D:{zh:"依IDDSI 4-7級查詢對應食譜與飲品做法",en:"Browse recipes and drinks by IDDSI level 4-7",fil:"Maghanap ng recipe ayon sa IDDSI level 4-7",id:"Cari resep berdasarkan level IDDSI 4-7"},
   slide2T:{zh:"共同紀錄",en:"Shared Log",fil:"Shared na Talaan",id:"Catatan Bersama"},
   slide2D:{zh:"所有照護者即時共用飲食紀錄，掌握每日進食狀況",en:"All caregivers share meal records in real time",fil:"Lahat ng tagapag-alaga ay may access sa talaan",id:"Semua pengasuh berbagi catatan makan secara real-time"},
   slide3T:{zh:"看診紀錄與語音輸入",en:"Visit Log & Voice Input",fil:"Talaan ng Konsulta at Boses",id:"Catatan Kunjungan & Input Suara"},
   slide3D:{zh:"用語音快速記錄看診狀況，多國語言輕鬆切換",en:"Record clinic visits by voice, switch languages easily",fil:"Mabilis na irekord gamit ang boses",id:"Rekam kunjungan dengan suara, ganti bahasa dengan mudah"},
-  navHome:{zh:"菜單",en:"Menu",fil:"Menu",id:"Menu"},
+  navHome:{zh:"質地指南",en:"Texture Guide",fil:"Gabay sa Texture",id:"Panduan Tekstur"},
   navLog:{zh:"飲食紀錄",en:"Meal Log",fil:"Talaan ng Pagkain",id:"Catatan Makan"},
   navRecipe:{zh:"新增",en:"Add",fil:"Magdagdag",id:"Tambah"},
   navVisit:{zh:"看診紀錄",en:"Visit Log",fil:"Talaan ng Konsulta",id:"Catatan Kunjungan"},
@@ -234,7 +242,21 @@ const I18N = {
   thisMonthLabel:{zh:"本月推薦",en:"This month",fil:"Ngayong buwan",id:"Bulan ini"},
   kcalUnit:{zh:"大卡／份",en:"kcal/serving",fil:"kcal/serving",id:"kkal/porsi"},
   monthUnit:{zh:"月",en:"",fil:"",id:""},
-  kcalPerServing:{zh:"一人份營養成分",en:"Nutrition per serving",fil:"Nutrisyon bawat serving",id:"Gizi per porsi"}
+  kcalPerServing:{zh:"一人份營養成分",en:"Nutrition per serving",fil:"Nutrisyon bawat serving",id:"Gizi per porsi"},
+  selfTestBtn:{zh:"IDDSI 質地自我檢測說明",en:"IDDSI Self-Test Guide",fil:"Gabay sa IDDSI Self-Test",id:"Panduan Uji Mandiri IDDSI"},
+  selfTestBtnDesc:{zh:"觀看影片，學習居家質地測試方法",en:"Watch a video to learn home texture testing methods",fil:"Panoorin ang video para matuto ng pagsusuri sa bahay",id:"Tonton video untuk belajar metode uji tekstur di rumah"},
+  selfTestTitle:{zh:"IDDSI 質地自我檢測說明",en:"IDDSI Self-Test Guide",fil:"Gabay sa IDDSI Self-Test",id:"Panduan Uji Mandiri IDDSI"},
+  selfTestVideoPlaceholder:{zh:"📹 影片內容製作中，敬請期待",en:"📹 Video coming soon",fil:"📹 Malapit nang available ang video",id:"📹 Video segera hadir"},
+  menuRefBtn:{zh:"菜單參考",en:"Menu Reference",fil:"Sanggunian sa Menu",id:"Referensi Menu"},
+  menuRefBtnDesc:{zh:"依流質、軟質、一般三種質地查詢菜單",en:"Browse menus by liquid, soft, or regular texture",fil:"Tingnan ang menu ayon sa texture",id:"Lihat menu berdasarkan tekstur"},
+  menuRefTitle:{zh:"菜單參考",en:"Menu Reference",fil:"Sanggunian sa Menu",id:"Referensi Menu"},
+  menuRefDesc:{zh:"請選擇質地分類",en:"Choose a texture category",fil:"Pumili ng kategorya ng texture",id:"Pilih kategori tekstur"},
+  catLiquid:{zh:"流質",en:"Liquid",fil:"Likido",id:"Cair"},
+  catLiquidDesc:{zh:"IDDSI Level 0-3｜飲品與液化食物",en:"IDDSI Level 0-3｜Drinks & liquidised food",fil:"IDDSI Level 0-3｜Inumin",id:"IDDSI Level 0-3｜Minuman"},
+  catSoft:{zh:"軟質",en:"Soft",fil:"Malambot",id:"Lunak"},
+  catSoftDesc:{zh:"IDDSI Level 4-6｜細泥至軟質一口大小",en:"IDDSI Level 4-6｜Pureed to soft bite-sized",fil:"IDDSI Level 4-6｜Pureed hanggang malambot",id:"IDDSI Level 4-6｜Puree hingga lunak"},
+  catRegular:{zh:"一般",en:"Regular",fil:"Regular",id:"Normal"},
+  catRegularDesc:{zh:"IDDSI Level 7｜一般 / 易咀嚼",en:"IDDSI Level 7｜Regular / Easy to chew",fil:"IDDSI Level 7｜Regular",id:"IDDSI Level 7｜Normal"}
 };
 function t(key){ return (I18N[key] && I18N[key][state.lang]) || (I18N[key] && I18N[key].zh) || key; }
 
@@ -621,8 +643,6 @@ function toggleContrast(){ state.contrast=!state.contrast; document.body.classLi
 
 /* ---------- HOME ---------- */
 function renderHome(){
-  const q = state.searchQuery.trim().toLowerCase();
-  const searchResults = q ? RECIPES.filter(r=> Object.values(typeof r.name==="string"?{v:r.name}:r.name).some(v=>v.toLowerCase().includes(q))) : [];
   return `
   <div class="topbar">
     <div class="topbar-row"><div><h1>${t('homeTitle')}</h1><p>${t('homeSub')}</p></div></div>
@@ -630,20 +650,78 @@ function renderHome(){
   ${a11yBar()}
   <div class="content">
     <div class="warn">⚠️ ${t('warnText')}</div>
-    <div class="search-box">
-      <input id="searchInput" aria-label="${t('searchPh')}" placeholder="${t('searchPh')}" value="${state.searchQuery}" oninput="onSearchInput(this.value)">
+    <div class="menu-btn-list">
+      <button class="menu-main-btn" onclick="state.view='selfTest';render()">
+        <div class="menu-main-btn-em">🎥</div>
+        <div class="menu-main-btn-text"><h3>${t('selfTestBtn')}</h3><p>${t('selfTestBtnDesc')}</p></div>
+      </button>
+      <button class="menu-main-btn" onclick="state.view='menuRef';render()">
+        <div class="menu-main-btn-em">🍽️</div>
+        <div class="menu-main-btn-text"><h3>${t('menuRefBtn')}</h3><p>${t('menuRefBtnDesc')}</p></div>
+      </button>
     </div>
-    ${q? `
-      <div class="section-title">${t('searchResultsLabel')}（${searchResults.length}）</div>
-      ${searchResults.length? searchResults.map(r=>`
+  </div>`;
+}
+
+/* ---------- IDDSI 自我檢測說明（影片） ---------- */
+function renderSelfTest(){
+  return `
+  <div class="topbar"><button class="backbtn" onclick="state.view='home';render()">${t('backHome')}</button><h1>${t('selfTestTitle')}</h1></div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="card">
+      <h4>${t('selfTestTitle')}</h4>
+      <div class="video-frame">
+        <div class="ph">${t('selfTestVideoPlaceholder')}</div>
+        <!-- 影片內容待補：可將這個 div 換成
+             <iframe src="https://www.youtube.com/embed/VIDEO_ID" style="position:absolute;inset:0;width:100%;height:100%;border:0" allowfullscreen></iframe>
+             或 <video src="影片網址.mp4" controls style="position:absolute;inset:0;width:100%;height:100%;"></video> -->
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- 菜單參考：流質 / 軟質 / 一般 ---------- */
+const MENU_GROUPS = {
+  liquid:{levels:[0,1,2,3], titleKey:"catLiquid", em:"🥤"},
+  soft:{levels:[4,5,6], titleKey:"catSoft", em:"🥣"},
+  regular:{levels:[7], titleKey:"catRegular", em:"🍚"}
+};
+function renderMenuRef(){
+  return `
+  <div class="topbar"><button class="backbtn" onclick="state.view='home';render()">${t('backHome')}</button><h1>${t('menuRefTitle')}</h1><p>${t('menuRefDesc')}</p></div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="menu-btn-list">
+      ${Object.entries(MENU_GROUPS).map(([key,g])=>`
+      <button class="menu-main-btn" onclick="openMenuGroup('${key}')">
+        <div class="menu-main-btn-em">${g.em}</div>
+        <div class="menu-main-btn-text"><h3>${t(g.titleKey)}</h3><p>${t(g.titleKey+'Desc')}</p></div>
+      </button>`).join("")}
+    </div>
+  </div>`;
+}
+function openMenuGroup(key){ state.menuGroup=key; state.view='menuGroupDetail'; render(); }
+function renderMenuGroupDetail(){
+  const key = state.menuGroup;
+  const group = MENU_GROUPS[key];
+  return `
+  <div class="topbar"><button class="backbtn" onclick="state.view='menuRef';render()">${t('back')}</button><h1>${t(group.titleKey)}</h1></div>
+  ${a11yBar()}
+  <div class="content">
+    ${group.levels.map(n=>{
+      const lv = LEVELS[n];
+      const recipes = RECIPES.filter(r=>r.level===n);
+      return `
+      <div class="section-title">Level ${n}．${lv.name.split(" ")[0]}</div>
+      ${ n<=3 ? `<div class="card" style="margin-bottom:12px;"><p>${lv.desc}</p></div>` : (recipes.length? recipes.map(r=>`
         <div class="food-item" onclick="openRecipe(${r.id})">
           <div class="emoji">${catEm(r.cat)}</div>
-          <div class="info"><h4>${trField(r.name)}</h4><p>${catName(r.cat)}｜${trField(r.method).slice(0,16)}...</p></div>
+          <div class="info"><h4>${trField(r.name)}</h4><p>${catName(r.cat)}</p></div>
           ${levelBadgeMini(r.level)}
-        </div>`).join("") : `<div class="empty">${t('noRecipeFound')}</div>`}
-    ` : `
-    ${renderMonthlySection()}
-    `}
+        </div>`).join("") : `<div class="empty">${t('noRecipeInCategory')}</div>`) }
+      `;
+    }).join("")}
   </div>`;
 }
 /* ---------- 本月營養食譜（來源：國健署《高齡營養健康食譜》） ---------- */
@@ -732,12 +810,12 @@ function renderRecipeListForLevelCat(n, catKey){
       </div>`).join("") : `<div class="empty">${t('noRecipeInCategory')}</div>`}
   `;
 }
-function openRecipe(id){ state.recipeId=id; state.view="recipeDetail"; render(); }
+function openRecipe(id){ state.recipeId=id; state.recipeFrom=state.view; state.view="recipeDetail"; render(); }
 function renderRecipeDetail(id){
   const r = RECIPES.find(x=>x.id===id);
   const lv = LEVELS[r.level];
   return `
-  <div class="topbar"><button class="backbtn" onclick="state.view = state.levelN? 'categoryList':'home';render()">${t('back')}</button><h1>${catEm(r.cat)} ${trField(r.name)}</h1></div>
+  <div class="topbar"><button class="backbtn" onclick="state.view = state.recipeFrom || (state.levelN? 'categoryList':'home');render()">${t('back')}</button><h1>${catEm(r.cat)} ${trField(r.name)}</h1></div>
   ${a11yBar()}
   <div class="content">
     <div class="detail-hero">${levelBadge(r.level,46)}<div><h2>Level ${r.level}．${lv.name.split(" ")[0]}</h2><span>${catName(r.cat)}</span></div></div>
@@ -952,6 +1030,9 @@ function render(){
   `;
   if(state.tab==="home"){
     if(state.view==="home") screen.innerHTML = renderHome();
+    else if(state.view==="selfTest") screen.innerHTML = renderSelfTest();
+    else if(state.view==="menuRef") screen.innerHTML = renderMenuRef();
+    else if(state.view==="menuGroupDetail") screen.innerHTML = renderMenuGroupDetail();
     else if(state.view==="levelDetail") screen.innerHTML = renderLevelDetail(state.levelN);
     else if(state.view==="categoryList") screen.innerHTML = renderCategoryList();
     else if(state.view==="recipeDetail") screen.innerHTML = renderRecipeDetail(state.recipeId);
