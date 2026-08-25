@@ -272,7 +272,20 @@ const I18N = {
   catSoft:{zh:"軟質",en:"Soft",fil:"Malambot",id:"Lunak"},
   catSoftDesc:{zh:"IDDSI Level 4-6｜細泥至軟質一口大小",en:"IDDSI Level 4-6｜Pureed to soft bite-sized",fil:"IDDSI Level 4-6｜Pureed hanggang malambot",id:"IDDSI Level 4-6｜Puree hingga lunak"},
   catRegular:{zh:"一般",en:"Regular",fil:"Regular",id:"Normal"},
-  catRegularDesc:{zh:"IDDSI Level 7｜一般 / 易咀嚼",en:"IDDSI Level 7｜Regular / Easy to chew",fil:"IDDSI Level 7｜Regular",id:"IDDSI Level 7｜Normal"}
+  catRegularDesc:{zh:"IDDSI Level 7｜一般 / 易咀嚼",en:"IDDSI Level 7｜Regular / Easy to chew",fil:"IDDSI Level 7｜Regular",id:"IDDSI Level 7｜Normal"},
+  level5Title:{zh:"IDDSI 第5級",en:"IDDSI Level 5",fil:"IDDSI Level 5",id:"IDDSI Level 5"},
+  level6Title:{zh:"IDDSI 第6級",en:"IDDSI Level 6",fil:"IDDSI Level 6",id:"IDDSI Level 6"},
+  level6Sub:{zh:"軟質及一口量",en:"Soft & bite-sized",fil:"Malambot at isang subo",id:"Lunak & sekali suap"},
+  level7Title:{zh:"IDDSI 第7級",en:"IDDSI Level 7",fil:"IDDSI Level 7",id:"IDDSI Level 7"},
+  level7Sub:{zh:"食物原狀、容易咀嚼",en:"Regular texture, easy to chew",fil:"Regular na texture, madaling nguyain",id:"Tekstur normal, mudah dikunyah"},
+  l7SectionTitle:{zh:"Level 7｜食物原狀、容易咀嚼",en:"Level 7｜Regular texture, easy to chew",fil:"Level 7｜Regular na texture, madaling nguyain",id:"Level 7｜Tekstur normal, mudah dikunyah"},
+  l7NutritionTitle:{zh:"一日參考營養成分",en:"Daily Reference Nutrition",fil:"Reference na Nutrisyon sa Isang Araw",id:"Referensi Gizi Harian"},
+  l7TotalCalories:{zh:"總熱量",en:"Total Calories",fil:"Kabuuang Calories",id:"Total Kalori"},
+  l7Protein:{zh:"蛋白質",en:"Protein",fil:"Protina",id:"Protein"},
+  l7Fat:{zh:"脂肪",en:"Fat",fil:"Taba",id:"Lemak"},
+  l7Carb:{zh:"醣類",en:"Carbohydrate",fil:"Carbohydrate",id:"Karbohidrat"},
+  l7PlatingLabel:{zh:"擺盤示範",en:"Plating Demo",fil:"Demonstrasyon ng Plating",id:"Demonstrasi Penataan Piring"},
+  l7KcalUnit:{zh:"大卡",en:"kcal",fil:"kcal",id:"kkal"}
 };
 function t(key){ return (I18N[key] && I18N[key][state.lang]) || (I18N[key] && I18N[key].zh) || key; }
 
@@ -318,10 +331,10 @@ let RECIPES = [
     method:{zh:"饅頭去皮切成一口大小，沾牛奶軟化後供食。",en:"Remove the skin, cut into bite-sized pieces, and soften with milk before serving.",fil:"Alisan ng balat, hiwain nang maliliit, at babadin sa gatas bago ihain.",id:"Buang kulitnya, potong sekali suap, rendam dengan susu sebelum disajikan."},
     note:{zh:"確認中心已軟化再食用。",en:"Make sure the center is softened before eating.",fil:"Siguraduhing malambot na ang gitna bago kainin.",id:"Pastikan bagian tengah sudah lunak sebelum dimakan."}},
   {id:5,cat:"grain",level:7,src:"preset",
-    name:{zh:"白飯（正常）",en:"Plain Rice (Regular)",fil:"Kaning Puti (Regular)",id:"Nasi Putih (Normal)"},
-    ing:{zh:"白米、水",en:"Rice, water",fil:"Bigas, tubig",id:"Beras, air"},
-    method:{zh:"以一般方式煮飯即可。",en:"Cook rice as usual.",fil:"Lutuin ang bigas gaya ng dati.",id:"Masak nasi seperti biasa."},
-    note:{zh:"適合咀嚼吞嚥功能正常者。",en:"Suitable for those with normal chewing and swallowing function.",fil:"Angkop para sa normal na paglunok at pagnguya.",id:"Cocok untuk fungsi mengunyah dan menelan normal."}},
+    name:{zh:"糙米飯",en:"Brown Rice",fil:"Brown Rice",id:"Nasi Merah"},
+    ing:{zh:"糙米、水",en:"Brown rice, water",fil:"Brown rice, tubig",id:"Beras merah, air"},
+    method:{zh:"糙米洗淨後以一般方式煮熟，可依個人喜好調整水量調整軟硬度。",en:"Rinse the brown rice and cook as usual; adjust the water amount for softer or firmer texture.",fil:"Hugasan ang brown rice at lutuin gaya ng dati; ayusin ang tubig para sa gustong texture.",id:"Cuci beras merah lalu masak seperti biasa; sesuaikan air untuk tekstur yang diinginkan."},
+    note:{zh:"適合咀嚼吞嚥功能正常者，糙米纖維較多，可視情況與白米混合煮食。",en:"Suitable for those with normal chewing and swallowing function; higher in fiber, can be mixed with white rice if needed.",fil:"Angkop para sa normal na paglunok at pagnguya; mas mataas sa fiber, puwedeng ihalo sa white rice.",id:"Cocok untuk fungsi mengunyah dan menelan normal; lebih tinggi serat, bisa dicampur nasi putih."}},
   {id:6,cat:"protein",level:4,src:"preset",
     name:{zh:"蒸蛋豆腐泥",en:"Steamed Egg & Tofu Puree",fil:"Puree ng Steamed Egg at Tokwa",id:"Puree Telur Kukus & Tahu"},
     ing:{zh:"雞蛋、嫩豆腐、高湯",en:"Egg, silken tofu, broth",fil:"Itlog, malambot na tokwa, sabaw",id:"Telur, tahu sutra, kaldu"},
@@ -338,10 +351,15 @@ let RECIPES = [
     method:{zh:"鱈魚清蒸後去骨去皮，剝成一口大小。",en:"Steam the cod, remove bones and skin, and break into bite-sized pieces.",fil:"I-steam ang cod, alisan ng buto at balat, hatiin sa maliliit na piraso.",id:"Kukus ikan kod, buang tulang dan kulit, potong sekali suap."},
     note:{zh:"務必仔細檢查魚刺。",en:"Be sure to carefully check for fish bones.",fil:"Siguraduhing walang natitirang tinik.",id:"Pastikan tidak ada duri yang tersisa."}},
   {id:9,cat:"protein",level:7,src:"preset",
-    name:{zh:"滷雞腿（一般）",en:"Braised Chicken Leg (Regular)",fil:"Braised na Manok (Regular)",id:"Paha Ayam Bumbu Kecap (Normal)"},
-    ing:{zh:"雞腿、滷汁",en:"Chicken leg, braising sauce",fil:"Hita ng manok, sarsa",id:"Paha ayam, saus"},
-    method:{zh:"一般滷製即可，注意去骨。",en:"Braise as usual, making sure to debone.",fil:"Lutuin gaya ng dati, alisan ng buto.",id:"Masak seperti biasa, pastikan tulangnya dibuang."},
-    note:{zh:"適合咀嚼功能正常者。",en:"Suitable for those with normal chewing function.",fil:"Angkop para sa normal na pagnguya.",id:"Cocok untuk fungsi mengunyah normal."}},
+    name:{zh:"蒸蛋",en:"Steamed Egg",fil:"Steamed na Itlog",id:"Telur Kukus"},
+    ing:{zh:"雞蛋、水、醬油",en:"Egg, water, soy sauce",fil:"Itlog, tubig, toyo",id:"Telur, air, kecap"},
+    method:{zh:"雞蛋打散加水攪勻，過篩後入電鍋蒸熟，起鍋前淋上少許醬油即可。",en:"Beat the egg with water, sieve, steam until set, and drizzle with a little soy sauce before serving.",fil:"Paluin ang itlog na may tubig, i-sala, i-steam hanggang maluto, budburan ng toyo.",id:"Kocok telur dengan air, saring, kukus hingga matang, siram sedikit kecap sebelum disajikan."},
+    note:{zh:"建議搭配蔬菜一同食用，均衡營養；適合咀嚼功能正常者。",en:"Best served with vegetables for balanced nutrition; suitable for those with normal chewing function.",fil:"Iparada sa gulay para balanseng nutrisyon; angkop para sa normal na pagnguya.",id:"Sebaiknya disajikan dengan sayur untuk gizi seimbang; cocok untuk fungsi mengunyah normal."}},
+  {id:25,cat:"protein",level:7,src:"preset",
+    name:{zh:"雙醬雞腿排",en:"Chicken Thigh with Two Sauces",fil:"Manok na may Dalawang Sarsa",id:"Paha Ayam dengan Dua Saus"},
+    ing:{zh:"去骨雞腿排、醬油、蜂蜜芥末醬",en:"Boneless chicken thigh, soy sauce, honey mustard sauce",fil:"Boneless na hita ng manok, toyo, honey mustard",id:"Paha ayam tanpa tulang, kecap, saus madu mustard"},
+    method:{zh:"雞腿排煎至兩面金黃熟透，盛盤後淋上醬油與蜂蜜芥末醬即可。",en:"Pan-fry the chicken thigh until golden and fully cooked, plate and drizzle with soy sauce and honey mustard sauce.",fil:"Iprito ang manok hanggang maluto, ilagay sa plato at budburan ng toyo at honey mustard.",id:"Panggang paha ayam hingga matang keemasan, sajikan dengan siraman kecap dan saus madu mustard."},
+    note:{zh:"建議搭配蔬菜一同食用，均衡營養；適合咀嚼功能正常者。",en:"Best served with vegetables for balanced nutrition; suitable for those with normal chewing function.",fil:"Iparada sa gulay para balanseng nutrisyon; angkop para sa normal na pagnguya.",id:"Sebaiknya disajikan dengan sayur untuk gizi seimbang; cocok untuk fungsi mengunyah normal."}},
   {id:10,cat:"veg",level:4,src:"preset",
     name:{zh:"南瓜濃湯青菜泥",en:"Pumpkin & Spinach Puree Soup",fil:"Puree na Sabaw ng Kalabasa at Gulay",id:"Sup Puree Labu & Sayuran"},
     ing:{zh:"南瓜、菠菜、高湯",en:"Pumpkin, spinach, broth",fil:"Kalabasa, spinach, sabaw",id:"Labu, bayam, kaldu"},
@@ -358,10 +376,10 @@ let RECIPES = [
     method:{zh:"花椰菜燙煮至軟透，切成一口大小。",en:"Boil broccoli until very tender, cut into bite-sized pieces.",fil:"Pakuluan ang broccoli hanggang malambot, hiwain nang maliit.",id:"Rebus brokoli hingga sangat lembut, potong sekali suap."},
     note:{zh:"以叉子背可壓碎為判斷標準。",en:"It should be crushable with the back of a fork.",fil:"Dapat madurog gamit ang likod ng tinidor.",id:"Harus bisa dihancurkan dengan punggung garpu."}},
   {id:13,cat:"veg",level:7,src:"preset",
-    name:{zh:"炒時蔬（一般）",en:"Stir-Fried Vegetables (Regular)",fil:"Prito na Gulay (Regular)",id:"Tumis Sayuran (Normal)"},
-    ing:{zh:"當季蔬菜",en:"Seasonal vegetables",fil:"Gulay ayon sa season",id:"Sayuran musiman"},
-    method:{zh:"一般炒製即可。",en:"Stir-fry as usual.",fil:"Prituhin gaya ng dati.",id:"Tumis seperti biasa."},
-    note:{zh:"適合咀嚼吞嚥功能正常者。",en:"Suitable for those with normal chewing and swallowing function.",fil:"Angkop para sa normal na paglunok at pagnguya.",id:"Cocok untuk fungsi mengunyah dan menelan normal."}},
+    name:{zh:"什錦蔬菜",en:"Mixed Vegetables",fil:"Halo-halong Gulay",id:"Sayuran Campur"},
+    ing:{zh:"紅蘿蔔、玉米筍、荷蘭豆、香菇",en:"Carrot, baby corn, snow peas, shiitake mushroom",fil:"Carrot, baby corn, snow peas, kabute",id:"Wortel, jagung muda, kapri, jamur shiitake"},
+    method:{zh:"蔬菜洗淨切段，汆燙或拌炒至熟軟即可。",en:"Wash and cut the vegetables, blanch or stir-fry until tender.",fil:"Hugasan at hiwain ang gulay, pakuluan o igisa hanggang malambot.",id:"Cuci dan potong sayuran, rebus atau tumis hingga empuk."},
+    note:{zh:"食材多樣化，可依季節替換蔬菜種類；適合咀嚼吞嚥功能正常者。",en:"Ingredients can be swapped by season for variety; suitable for those with normal chewing and swallowing function.",fil:"Puwedeng palitan ang gulay ayon sa season; angkop para sa normal na paglunok at pagnguya.",id:"Bahan bisa diganti sesuai musim; cocok untuk fungsi mengunyah dan menelan normal."}},
   {id:14,cat:"fruit",level:4,src:"preset",
     name:{zh:"香蕉蘋果泥",en:"Banana & Apple Puree",fil:"Puree ng Saging at Mansanas",id:"Puree Pisang & Apel"},
     ing:{zh:"熟香蕉、蘋果",en:"Ripe banana, apple",fil:"Hinog na saging, mansanas",id:"Pisang matang, apel"},
@@ -378,10 +396,10 @@ let RECIPES = [
     method:{zh:"水梨去皮切一口大小，選擇熟軟品種。",en:"Peel the pear and cut into bite-sized pieces, choosing a soft ripe variety.",fil:"Balatan ang peras at hiwain nang maliit, pumili ng malambot na klase.",id:"Kupas pir dan potong sekali suap, pilih varietas yang lembut."},
     note:{zh:"硬梨不適合此等級。",en:"Firm pears are not suitable for this level.",fil:"Hindi angkop ang matigas na peras.",id:"Pir yang keras tidak cocok untuk level ini."}},
   {id:17,cat:"fruit",level:7,src:"preset",
-    name:{zh:"新鮮水果（一般）",en:"Fresh Fruit (Regular)",fil:"Sariwang Prutas (Regular)",id:"Buah Segar (Normal)"},
-    ing:{zh:"當季水果",en:"Seasonal fruit",fil:"Prutas ayon sa season",id:"Buah musiman"},
-    method:{zh:"清洗切塊即可。",en:"Wash and cut into pieces.",fil:"Hugasan at hiwain.",id:"Cuci dan potong."},
-    note:{zh:"適合咀嚼吞嚥功能正常者。",en:"Suitable for those with normal chewing and swallowing function.",fil:"Angkop para sa normal na paglunok at pagnguya.",id:"Cocok untuk fungsi mengunyah dan menelan normal."}},
+    name:{zh:"雙色水果拼盤",en:"Two-Color Fruit Platter",fil:"Dalawang Kulay na Fruit Platter",id:"Piring Buah Dua Warna"},
+    ing:{zh:"當季水果兩種（例如木瓜、奇異果）",en:"Two kinds of seasonal fruit (e.g. papaya, kiwi)",fil:"Dalawang klase ng prutas (hal. papaya, kiwi)",id:"Dua jenis buah musiman (mis. pepaya, kiwi)"},
+    method:{zh:"水果洗淨去皮切片，交錯擺盤即可。",en:"Wash and peel the fruit, slice, and arrange alternately on a plate.",fil:"Hugasan at balatan ang prutas, hiwain, at ihanay sa plato.",id:"Cuci dan kupas buah, iris, lalu susun bergantian di piring."},
+    note:{zh:"建議挑選熟軟水果，方便咀嚼；適合咀嚼吞嚥功能正常者。",en:"Choose ripe, soft fruit for easier chewing; suitable for those with normal chewing and swallowing function.",fil:"Pumili ng hinog at malambot na prutas para madaling nguyain; angkop para sa normal na paglunok at pagnguya.",id:"Pilih buah matang dan lunak agar mudah dikunyah; cocok untuk fungsi mengunyah dan menelan normal."}},
   {id:18,cat:"dairy",level:4,src:"preset",
     name:{zh:"無顆粒優格",en:"Smooth Yogurt (No Chunks)",fil:"Makinis na Yogurt",id:"Yogurt Halus Tanpa Potongan"},
     ing:{zh:"原味優格",en:"Plain yogurt",fil:"Plain na yogurt",id:"Yogurt plain"},
@@ -397,11 +415,11 @@ let RECIPES = [
     ing:{zh:"起司蛋糕",en:"Cheesecake",fil:"Cheesecake",id:"Cheesecake"},
     method:{zh:"選用綿密濕潤款式，切一口大小。",en:"Choose a dense, moist variety and cut into bite-sized pieces.",fil:"Pumili ng makapal at basang klase, hiwain nang maliit.",id:"Pilih varian yang lembut dan lembap, potong sekali suap."},
     note:{zh:"避免含果乾堅果配料。",en:"Avoid toppings with dried fruit or nuts.",fil:"Iwasan ang toppings na dried fruit o mani.",id:"Hindari topping buah kering atau kacang."}},
-  {id:21,cat:"dairy",level:7,src:"preset",
-    name:{zh:"鮮奶（一般）",en:"Fresh Milk (Regular)",fil:"Sariwang Gatas (Regular)",id:"Susu Segar (Normal)"},
-    ing:{zh:"鮮奶",en:"Fresh milk",fil:"Sariwang gatas",id:"Susu segar"},
-    method:{zh:"直接飲用或搭配餐點。",en:"Drink directly or pair with meals.",fil:"Inumin nang direkta o kasabay ng pagkain.",id:"Minum langsung atau sebagai pendamping makan."},
-    note:{zh:"適合咀嚼吞嚥功能正常者。",en:"Suitable for those with normal chewing and swallowing function.",fil:"Angkop para sa normal na paglunok at pagnguya.",id:"Cocok untuk fungsi mengunyah dan menelan normal."}},
+  {id:21,cat:"veg",level:7,src:"preset",
+    name:{zh:"水煮大黃瓜",en:"Boiled Large Cucumber",fil:"Nilagang Malaking Pipino",id:"Timun Besar Rebus"},
+    ing:{zh:"大黃瓜、鹽",en:"Large cucumber, salt",fil:"Malaking pipino, asin",id:"Timun besar, garam"},
+    method:{zh:"大黃瓜去皮去籽切片，加水煮軟，起鍋前加少許鹽調味即可。",en:"Peel and deseed the cucumber, slice, boil in water until soft, and season with a little salt before serving.",fil:"Balatan at alisan ng buto ang pipino, hiwain, pakuluan hanggang malambot, timplahan ng asin.",id:"Kupas dan buang biji timun, iris, rebus hingga lunak, bumbui sedikit garam sebelum disajikan."},
+    note:{zh:"大黃瓜煮軟後質地柔軟，適合長者食用；適合咀嚼吞嚥功能正常者。",en:"Boiled cucumber becomes soft and easy to eat for elders; suitable for those with normal chewing and swallowing function.",fil:"Malambot ang pipino pagkatapos lutuin, madaling kainin ng matatanda; angkop para sa normal na paglunok at pagnguya.",id:"Timun yang direbus menjadi lunak dan mudah dimakan lansia; cocok untuk fungsi mengunyah dan menelan normal."}},
   {id:22,cat:"oil",level:4,src:"preset",
     name:{zh:"堅果醬糊",en:"Smooth Nut Butter Paste",fil:"Makinis na Nut Butter",id:"Pasta Selai Kacang Halus"},
     ing:{zh:"無顆粒花生醬、溫水",en:"Smooth peanut butter, warm water",fil:"Makinis na peanut butter, mainit na tubig",id:"Selai kacang halus, air hangat"},
@@ -412,11 +430,11 @@ let RECIPES = [
     ing:{zh:"黑芝麻粉、燕麥",en:"Black sesame powder, oats",fil:"Black sesame powder, oats",id:"Bubuk wijen hitam, oat"},
     method:{zh:"芝麻粉煮成糊狀，拌入少量燕麥增加口感。",en:"Cook sesame powder into a paste, mix in a little oats for texture.",fil:"Lutuin ang sesame powder hanggang maging paste, ihalo ang kaunting oats.",id:"Masak bubuk wijen menjadi bubur, campur sedikit oat untuk tekstur."},
     note:{zh:"確保無結塊、質地均勻。",en:"Make sure there are no lumps and the texture is even.",fil:"Siguraduhing walang tumpok at pantay ang texture.",id:"Pastikan tidak menggumpal dan teksturnya merata."}},
-  {id:24,cat:"oil",level:7,src:"preset",
-    name:{zh:"堅果（一般）",en:"Nuts (Regular)",fil:"Mani (Regular)",id:"Kacang (Normal)"},
-    ing:{zh:"綜合堅果",en:"Mixed nuts",fil:"Halo-halong mani",id:"Kacang campur"},
-    method:{zh:"直接食用或磨碎入菜。",en:"Eat directly or grind into dishes.",fil:"Kainin nang direkta o gilingin sa ulam.",id:"Makan langsung atau haluskan ke dalam masakan."},
-    note:{zh:"整顆堅果不適合吞嚥困難者，噎塞風險高。",en:"Whole nuts are not suitable for people with swallowing difficulty due to high choking risk.",fil:"Hindi angkop ang buong mani sa may hirap lumunok dahil sa panganib mabulunan.",id:"Kacang utuh tidak cocok untuk penderita disfagia karena risiko tersedak tinggi."}}
+  {id:24,cat:"veg",level:7,src:"preset",
+    name:{zh:"蒸南瓜",en:"Steamed Pumpkin",fil:"Steamed na Kalabasa",id:"Labu Kukus"},
+    ing:{zh:"南瓜",en:"Pumpkin",fil:"Kalabasa",id:"Labu"},
+    method:{zh:"南瓜洗淨去籽，切塊後入電鍋蒸熟即可。",en:"Wash and deseed the pumpkin, cut into pieces, and steam until cooked.",fil:"Hugasan at alisan ng buto ang kalabasa, hiwain, at i-steam hanggang maluto.",id:"Cuci dan buang biji labu, potong, lalu kukus hingga matang."},
+    note:{zh:"質地鬆軟，適合搭配其他菜色食用；適合咀嚼吞嚥功能正常者。",en:"Soft texture, pairs well with other dishes; suitable for those with normal chewing and swallowing function.",fil:"Malambot na texture, mainam isabay sa ibang ulam; angkop para sa normal na paglunok at pagnguya.",id:"Tekstur lembut, cocok dipadukan dengan hidangan lain; cocok untuk fungsi mengunyah dan menelan normal."}}
 ];
 /* 依目前語言取回文字欄位，若非多語言物件（例如使用者自訂內容）則原樣顯示 */
 function trField(val){
@@ -705,7 +723,14 @@ const VIDEO_MAP = {
   l12_yogurt:   "YySY5cW4yFs", // 優酪乳
   l12_oatmeal:  "hGqOVnHR9z0", // 喝的桂格燕麥
   l12_avocado:  "dDp-qv8TFr0", // 酪梨牛奶
-  l12_vegjuice: "z-lO457Ropg"  // 果菜汁加增稠劑
+  l12_vegjuice: "z-lO457Ropg", // 果菜汁加增稠劑
+  l7_pumpkin:   "carqi1PeVFo", // 7級食譜－蒸南瓜
+  l7_egg:       "FWx74B6mHMo", // 7級食譜－蒸蛋
+  l7_chicken:   "v1Ps0YruJkg", // 7級食譜－雙醬雞腿排
+  l7_vegmix:    "-11_YH-QTP4", // 7級食譜－什錦蔬菜
+  l7_cucumber:  "NhGOWmIlu_s", // 7級食譜－水煮大黃瓜
+  l7_fruit:     "McJ_m9YDvbY", // 7級食譜－雙色水果拼盤
+  l7_plating:   "SlnhJ1vXtxc"  // 7級食譜－擺盤
 };
 /* 單一影片區塊，label 為影片上方的小標題（例如食物名稱），可省略；videoId 有值就嵌入 YouTube 影片，沒有就顯示佔位框。
    影片一開始不帶 autoplay，等它滑動進入畫面可視範圍時，才由 setupScrollAutoplay() 幫它加上 autoplay 參數觸發播放。 */
@@ -809,47 +834,88 @@ function renderSelfTestDetail(){
   </div>`;
 }
 
-/* ---------- 菜單參考：流質 / 軟質 / 一般 ---------- */
-const MENU_GROUPS = {
-  liquid:{levels:[0,1,2,3], titleKey:"catLiquid", em:"🥤"},
-  soft:{levels:[4,5,6], titleKey:"catSoft", em:"🥣"},
-  regular:{levels:[7], titleKey:"catRegular", em:"🍚"}
-};
+/* ---------- 咀嚼困難飲食之示範料理：IDDSI 第5級／第6級／第7級 ---------- */
+const MENU_GROUPS = [
+  {key:"5", level:5, titleKey:"level5Title", subKey:null},
+  {key:"6", level:6, titleKey:"level6Title", subKey:"level6Sub"},
+  {key:"7", level:7, titleKey:"level7Title", subKey:"level7Sub"}
+];
 function renderMenuRef(){
   return `
   <div class="topbar"><button class="backbtn" onclick="state.view='home';render()">${t('backHome')}</button><h1>${t('menuRefTitle')}</h1><p>${t('menuRefDesc')}</p></div>
   ${a11yBar()}
   <div class="content">
     <div class="menu-btn-list">
-      ${Object.entries(MENU_GROUPS).map(([key,g])=>`
-      <button class="menu-main-btn" onclick="openMenuGroup('${key}')">
-        <div class="menu-main-btn-em">${g.em}</div>
-        <div class="menu-main-btn-text"><h3>${t(g.titleKey)}</h3><p>${t(g.titleKey+'Desc')}</p></div>
+      ${MENU_GROUPS.map(g=>`
+      <button class="menu-main-btn" onclick="openMenuGroup('${g.key}')">
+        <div class="menu-main-btn-text"><h3>${t(g.titleKey)}</h3>${g.subKey?`<p>${t(g.subKey)}</p>`:""}</div>
       </button>`).join("")}
     </div>
   </div>`;
 }
 function openMenuGroup(key){ state.menuGroup=key; state.view='menuGroupDetail'; render(); }
-function renderMenuGroupDetail(){
-  const key = state.menuGroup;
-  const group = MENU_GROUPS[key];
+/* Level 7 專屬版面：營養總表 → 擺盤影片 → 每道料理各附一支（或多支）示範影片，不顯示分類 icon */
+const LEVEL7_DISH_VIDEOS = {
+  5:  [], // 糙米飯：暫無對應影片
+  24: [{key:"l7_pumpkin"}], // 蒸南瓜
+  9:  [{key:"l7_egg"}], // 蒸蛋
+  25: [{key:"l7_chicken"}], // 雙醬雞腿排
+  13: [{key:"l7_vegmix"}], // 什錦蔬菜
+  21: [{key:"l7_cucumber"}], // 水煮大黃瓜
+  17: [{key:"l7_fruit"}] // 雙色水果拼盤
+};
+const LEVEL7_ORDER = [5, 24, 9, 25, 13, 21, 17]; // 糙米飯、蒸南瓜、蒸蛋、雙醬雞腿排、什錦蔬菜、水煮大黃瓜、雙色水果拼盤
+function renderMenuGroupDetail_L7(group){
+  const n = 7;
+  const byId = id => RECIPES.find(r=>r.id===id);
+  const recipes = LEVEL7_ORDER.map(byId).filter(Boolean);
   return `
-  <div class="topbar"><button class="backbtn" onclick="state.view='menuRef';render()">${t('back')}</button><h1>${t(group.titleKey)}</h1></div>
+  <div class="topbar"><button class="backbtn" onclick="state.view='menuRef';render()">${t('back')}</button><h1>${t(group.titleKey)}</h1>${group.subKey?`<p>${t(group.subKey)}</p>`:""}</div>
   ${a11yBar()}
   <div class="content">
-    ${group.levels.map(n=>{
-      const lv = LEVELS[n];
-      const recipes = RECIPES.filter(r=>r.level===n);
+    <div class="section-title">${t('l7SectionTitle')}</div>
+
+    <div class="card">
+      <h4>${t('l7NutritionTitle')}</h4>
+      <p>${t('l7TotalCalories')}：730（${t('l7KcalUnit')}）</p>
+      <p>${t('l7Protein')}：30.5（g）、${t('l7Fat')}：27.5（g）、${t('l7Carb')}：90（g）</p>
+    </div>
+
+    <div class="card">
+      <h4>${t('l7PlatingLabel')}</h4>
+      ${videoBlock(null, VIDEO_MAP.l7_plating)}
+    </div>
+
+    ${recipes.map(r=>{
+      const vids = LEVEL7_DISH_VIDEOS[r.id] || [];
       return `
-      <div class="section-title">Level ${n}．${lv.name.split(" ")[0]}</div>
-      ${ n<=3 ? `<div class="card" style="margin-bottom:12px;"><p>${lv.desc}</p></div>` : (recipes.length? recipes.map(r=>`
-        <div class="food-item" onclick="openRecipe(${r.id})">
-          <div class="emoji">${catEm(r.cat)}</div>
-          <div class="info"><h4>${trField(r.name)}</h4><p>${catName(r.cat)}</p></div>
-          ${levelBadgeMini(r.level)}
-        </div>`).join("") : `<div class="empty">${t('noRecipeInCategory')}</div>`) }
-      `;
+      <div class="card">
+        <h4 style="color:var(--accent);cursor:pointer;" onclick="openRecipe(${r.id})">${trField(r.name)}</h4>
+        ${vids.length
+          ? vids.map((v,i)=>`${i>0?'<div style="height:10px;"></div>':''}${videoBlock(v.label||null, VIDEO_MAP[v.key])}`).join("")
+          : videoBlock(null, null)}
+      </div>`;
     }).join("")}
+  </div>`;
+}
+function renderMenuGroupDetail(){
+  const key = state.menuGroup;
+  const group = MENU_GROUPS.find(g=>g.key===key);
+  if(group.key==="7") return renderMenuGroupDetail_L7(group);
+  const n = group.level;
+  const lv = LEVELS[n];
+  const recipes = RECIPES.filter(r=>r.level===n);
+  return `
+  <div class="topbar"><button class="backbtn" onclick="state.view='menuRef';render()">${t('back')}</button><h1>${t(group.titleKey)}</h1>${group.subKey?`<p>${t(group.subKey)}</p>`:""}</div>
+  ${a11yBar()}
+  <div class="content">
+    <div class="section-title">Level ${n}．${lv.name.split(" ")[0]}</div>
+    ${recipes.length? recipes.map(r=>`
+      <div class="food-item" onclick="openRecipe(${r.id})">
+        <div class="emoji">${catEm(r.cat)}</div>
+        <div class="info"><h4>${trField(r.name)}</h4><p>${catName(r.cat)}</p></div>
+        ${levelBadgeMini(r.level)}
+      </div>`).join("") : `<div class="empty">${t('noRecipeInCategory')}</div>`}
   </div>`;
 }
 /* ---------- 本月營養食譜（來源：國健署《高齡營養健康食譜》） ---------- */
