@@ -747,7 +747,8 @@ const VIDEO_MAP = {
   l7_vegmix:    "-11_YH-QTP4", // 7級食譜－什錦蔬菜
   l7_cucumber:  "NhGOWmIlu_s", // 7級食譜－水煮大黃瓜
   l7_fruit:     "McJ_m9YDvbY", // 7級食譜－雙色水果拼盤
-  l7_plating:   "SlnhJ1vXtxc"  // 7級食譜－擺盤
+  l7_plating:   "SlnhJ1vXtxc", // 7級食譜－擺盤
+  l7_rice:      "3_39016Fr-g"  // 7級食譜－糙米飯
 };
 /* 單一影片區塊，label 為影片上方的小標題（例如食物名稱），可省略；videoId 有值就嵌入 YouTube 影片，沒有就顯示佔位框。
    影片一開始不帶 autoplay，等它滑動進入畫面可視範圍時，才由 setupScrollAutoplay() 幫它加上 autoplay 參數觸發播放。 */
@@ -873,7 +874,7 @@ function renderMenuRef(){
 function openMenuGroup(key){ state.menuGroup=key; state.view='menuGroupDetail'; render(); }
 /* Level 7 專屬版面：營養總表 → 擺盤影片 → 每道料理各附一支（或多支）示範影片，不顯示分類 icon */
 const LEVEL7_DISH_VIDEOS = {
-  5:  [], // 糙米飯：暫無對應影片
+  5:  [{key:"l7_rice"}], // 糙米飯
   24: [{key:"l7_pumpkin"}], // 蒸南瓜
   9:  [{key:"l7_egg"}], // 蒸蛋
   25: [{key:"l7_chicken"}], // 雙醬雞腿排
