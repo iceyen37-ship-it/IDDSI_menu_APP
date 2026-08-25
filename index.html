@@ -707,15 +707,35 @@ const VIDEO_MAP = {
   l12_avocado:  "dDp-qv8TFr0", // 酪梨牛奶
   l12_vegjuice: "z-lO457Ropg"  // 果菜汁加增稠劑
 };
-/* 單一影片區塊，label 為影片上方的小標題（例如食物名稱），可省略；videoId 有值就嵌入 YouTube 影片，沒有就顯示佔位框 */
+/* 單一影片區塊，label 為影片上方的小標題（例如食物名稱），可省略；videoId 有值就嵌入 YouTube 影片，沒有就顯示佔位框。
+   影片一開始不帶 autoplay，等它滑動進入畫面可視範圍時，才由 setupScrollAutoplay() 幫它加上 autoplay 參數觸發播放。 */
 function videoBlock(label, videoId){
   return `
     ${label? `<p style="font-size:.8rem;font-weight:700;color:var(--ink);margin:0 0 6px;">${label}</p>` : ""}
     <div class="video-frame">
       ${videoId
-        ? `<iframe src="https://www.youtube.com/embed/${videoId}" style="position:absolute;inset:0;width:100%;height:100%;border:0" allowfullscreen title="${label||''}"></iframe>`
+        ? `<iframe class="yt-scroll-autoplay" data-base-src="https://www.youtube.com/embed/${videoId}?mute=1&playsinline=1" src="https://www.youtube.com/embed/${videoId}?mute=1&playsinline=1" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="autoplay; encrypted-media" allowfullscreen title="${label||''}"></iframe>`
         : `<div class="ph">${t('selfTestVideoPlaceholder')}</div>`}
     </div>`;
+}
+/* 讓影片「滑到畫面可視範圍內才自動播放」：觀察 #screen 這個捲動容器裡的每支 iframe，
+   進入可視範圍時才把網址換成帶 autoplay=1 的版本觸發播放（YouTube iframe 需要重新載入網址才能觸發自動播放）。 */
+let scrollAutoplayObserver = null;
+function setupScrollAutoplay(){
+  const screenEl = document.getElementById('screen');
+  const frames = screenEl.querySelectorAll('iframe.yt-scroll-autoplay');
+  if(!frames.length) return;
+  if(scrollAutoplayObserver) scrollAutoplayObserver.disconnect();
+  scrollAutoplayObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const iframe = entry.target;
+      if(entry.isIntersecting && entry.intersectionRatio >= 0.6 && !iframe.dataset.played){
+        iframe.dataset.played = "1";
+        iframe.src = iframe.dataset.baseSrc + "&autoplay=1";
+      }
+    });
+  }, {root:screenEl, threshold:0.6});
+  frames.forEach(f=>scrollAutoplayObserver.observe(f));
 }
 /* Level 1-2 內容較多，依「工具說明 → 步驟教學 → Level 1 範例 → Level 2 範例」分區塊呈現 */
 function renderSelfTestDetail_L12(g){
@@ -1150,6 +1170,7 @@ function render(){
   else if(state.tab==="recipe"){ screen.innerHTML = renderRecipeForm(); }
   else if(state.tab==="visit"){ screen.innerHTML = renderVisit(); }
   screen.scrollTop = 0;
+  setupScrollAutoplay();
 }
 function goTab(tabName){ state.tab=tabName; state.view="home"; state.searchQuery=""; render(); }
 
