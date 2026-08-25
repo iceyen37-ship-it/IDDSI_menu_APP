@@ -112,6 +112,10 @@
   .menu-main-btn-text p{margin:3px 0 0;font-size:.75rem;color:var(--sub);}
   .video-frame{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:12px;overflow:hidden;margin-top:8px;}
   .video-frame .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;text-align:center;padding:0 18px;line-height:1.6;}
+  .credits-footer{margin-top:28px;padding:16px 4px 8px;border-top:1px solid #e5e7eb;text-align:center;}
+  .credits-org{margin:0 0 2px;font-size:.72rem;font-weight:700;color:var(--sub);}
+  .credits-row{font-size:.68rem;color:var(--sub);margin-top:4px;line-height:1.5;}
+  .credits-row .credits-label{font-weight:700;color:var(--ink);margin-right:4px;}
 </style>
 </head>
 <body>
@@ -696,6 +700,19 @@ function renderHome(){
     </div>
   </div>`;
 }
+/* 出品／製作團隊資訊，顯示於首頁最底部 */
+function creditsFooter(){
+  return `
+  <div class="credits-footer">
+    <p class="credits-org">臺北醫學大學營養學院</p>
+    <p class="credits-org">保健營養學系／高齡營養研究中心 出品</p>
+    <div class="credits-row"><span class="credits-label">策畫／監製</span><span>楊素卿</span></div>
+    <div class="credits-row"><span class="credits-label">食譜設計</span><span>邱碗淳、陳雅琳</span></div>
+    <div class="credits-row"><span class="credits-label">食譜示範</span><span>邱碗淳、陳雅琳、彭湘琦、傅律綺、曾郁潔、張芷菱、劉德俊</span></div>
+    <div class="credits-row"><span class="credits-label">策畫執行</span><span>彭湘琦</span></div>
+    <div class="credits-row"><span class="credits-label">攝影／影片製作</span><span>盧永睿</span></div>
+  </div>`;
+}
 
 /* ---------- IDDSI 質地測定示範（5 個等級格子 -> 各自影片） ---------- */
 const SELF_TEST_GROUPS = [
@@ -896,6 +913,7 @@ function renderMenuGroupDetail_L7(group){
           : videoBlock(null, null)}
       </div>`;
     }).join("")}
+    ${creditsFooter()}
   </div>`;
 }
 function renderMenuGroupDetail(){
